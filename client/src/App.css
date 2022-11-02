@@ -188,7 +188,8 @@ body {
 
 .list-card-button {
   float: right;
-  transform: scale(2);
+  transform: scale(1.1);
+  align-content: center;
 }
 
 #workspace-home,

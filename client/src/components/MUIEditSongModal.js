@@ -62,7 +62,7 @@ export default function MUIEditSongModal() {
                 className="modal-root">
                 <div
                     id="edit-song-modal-header"
-                    className="modal-north">Edit Song</div>
+                    className="modal-north"><h3>Edit Song</h3></div>
                 <div
                     id="edit-song-modal-content"
                     className="modal-center">
@@ -95,6 +95,8 @@ export default function MUIEditSongModal() {
                         className="modal-button" 
                         value='Confirm' 
                         onClick={handleConfirmEditSong} />
+                        
+                                 
                     <input 
                         type="button" 
                         id="edit-song-cancel-button" 

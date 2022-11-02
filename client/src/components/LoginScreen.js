@@ -84,10 +84,6 @@ export default function LoginScreen() {
                             id="password"
                             autoComplete="current-password"
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
                         <Button
                             type="submit"
                             fullWidth
@@ -99,7 +95,6 @@ export default function LoginScreen() {
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
-                                    Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
