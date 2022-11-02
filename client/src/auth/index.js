@@ -113,6 +113,7 @@ function AuthContextProvider(props) {
     }
 
     auth.loginUser = async function(email, password) {
+        try{
         const response = await api.loginUser(email, password);
         if (response.status === 200) {
             authReducer({
@@ -122,6 +123,14 @@ function AuthContextProvider(props) {
                 }
             })
             history.push("/");
+        }
+        } catch(error) { 
+            authReducer({
+                type: AuthActionType.REGISTER_USER_ERROR,
+                payload: {
+                    errorMessage: error.response.data.errorMessage
+                }
+            })
         }
     }
 
