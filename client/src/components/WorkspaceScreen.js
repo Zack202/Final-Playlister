@@ -17,6 +17,10 @@ function WorkspaceScreen() {
     store.history = useHistory();
     
     let modalJSX = "";
+    if (store.currentList == null) {
+        store.history.push("/");
+        return(<Box></Box>)
+    }
     if (store.isEditSongModalOpen()) {
         modalJSX = <MUIEditSongModal />;
     }
