@@ -13,9 +13,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MUIErrorModal from './MUIErrorModal';
+import { GlobalStoreContext } from '../store/index.js';
+import { useHistory } from 'react-router-dom';
+import HomeScreen from './HomeScreen';
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
+    const { store } = useContext(GlobalStoreContext);
+    store.history = useHistory();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -29,6 +34,11 @@ export default function RegisterScreen() {
         );
     };
 
+    if (auth.loggedIn){
+        store.history.push("/");
+        return (<HomeScreen />)
+        }
+    else
     return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline />

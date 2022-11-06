@@ -16,9 +16,15 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MUIErrorModal from './MUIErrorModal';
+import HomeScreen from './HomeScreen';
+import { GlobalStoreContext } from '../store/index.js';
+import { useHistory } from 'react-router-dom';
+
 
 export default function LoginScreen() {
     const { auth } = useContext(AuthContext);
+    const { store } = useContext(GlobalStoreContext);
+    store.history = useHistory();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -29,7 +35,11 @@ export default function LoginScreen() {
         );
 
     };
-
+    if (auth.loggedIn){
+    store.history.push("/");
+    return (<HomeScreen />)
+    }
+else
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>
             <CssBaseline />
