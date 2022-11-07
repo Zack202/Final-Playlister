@@ -452,6 +452,21 @@ function GlobalStoreContextProvider(props) {
         store.addCreateSongTransaction(
             playlistSize, "Untitled", "?", "dQw4w9WgXcQ");
     }
+    function handleKeyDown(event){
+        if(event.ctrlKey && event.keyCode === 90 && !store.modalOpenE && !store.modalOpenD){
+                if (tps.hasTransactionToUndo()){
+                    store.undo();
+
+                }
+            event.preventDefault();
+        } else if (event.ctrlKey && event.keyCode === 89 && !store.modalOpenE && !store.modalOpenD){
+
+                if (tps.hasTransactionToRedo()){
+                    store.redo();
+                }
+        }
+    }
+    document.onkeydown = (e) => handleKeyDown(e);
     // THIS FUNCDTION ADDS A CreateSong_Transaction TO THE TRANSACTION STACK
     store.addCreateSongTransaction = (index, title, artist, youTubeId) => {
         // ADD A SONG ITEM AND ITS NUMBER

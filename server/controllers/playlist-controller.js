@@ -25,6 +25,7 @@ createPlaylist = (req, res) => {
     }
 
     User.findOne({ _id: req.userId }, (err, user) => {
+        if (user._id == req.userId) {
         console.log("user found: " + JSON.stringify(user));
         user.playlists.push(playlist._id);
         user
@@ -43,6 +44,12 @@ createPlaylist = (req, res) => {
                         })
                     })
             });
+        } else {
+           console.log("incorrect user!");
+                    return res.status(400).json({ 
+                        errorMessage: "authentication error" 
+                    }); 
+        }
     })
 }
 deletePlaylist = async (req, res) => {
