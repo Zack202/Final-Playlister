@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+
 export default function AppBanner() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
@@ -91,7 +92,6 @@ export default function AppBanner() {
         else
             return <AccountCircle />;
     }
-
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -102,8 +102,10 @@ export default function AppBanner() {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <img src="PLL.png" alt="logo" width="150" height="60"></img>
+                        <img src={process.env.PUBLIC_URL + '/PLL.png'} alt="logo" width="150" height="65"></img>
                         {/*<Link style={{ textDecoration: 'none', color: 'white' }} to='/'>⌂</Link>*/}
+                        
+                    
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
