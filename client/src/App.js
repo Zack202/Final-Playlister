@@ -28,6 +28,7 @@ const App = () => {
             <AuthContextProvider>
                 <GlobalStoreContextProvider>
                 <Switch>                    
+                <Route path="/" exact component={AppBanner} />
                         <Route path="/login/" exact component={AppBanner} />
                         <Route path="/register/" exact component={AppBanner} />
                         <Route path="/playlist/:id" exact component={AppBanner} />

@@ -6,6 +6,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import { Grid, Typography } from '@mui/material';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -77,26 +82,52 @@ function ListCard(props) {
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1, border: 1 }}
-            style={{ width: '100%', fontSize: '48pt' }}
+            sx={{ marginTop: '15px', display: 'flex', p: 1, border: 1, alignItems: "start",borderRadius: "10px" }}
+            style={{ width: '100%', fontSize: '16pt' }}
             button
             onClick={(event) => {
                 handleLoadList(event, idNamePair._id)
             }}
         >
-            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-            <Box sx={{ p: 1 }}>
+        <Grid container spacing={1}>
+            <Grid item xs={8}>{idNamePair.name}</Grid>
+            <Grid item xs={2}>
                 <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'48pt'}} />
+                    <ThumbUpOffAltIcon style={{fontSize:'18pt'}} />
                 </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
+                12
+            </Grid>
+            <Grid item xs={2} >
                 <IconButton onClick={(event) => {
                         handleDeleteList(event, idNamePair._id)
                     }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'48pt'}} />
+                    <ThumbDownOffAltIcon style={{fontSize:'18pt'}} />
                 </IconButton>
-            </Box>
+                12
+            </Grid>
+            <Grid item xs={12} >
+                <Typography style={{fontSize:'10pt'}}>
+                    By: McKilla Gorilla
+                </Typography> 
+            </Grid>
+            <Grid item xs={8} >
+                <Typography style={{fontSize:'10pt'}}>
+                    Published: Date
+                </Typography> 
+            </Grid>
+            <Grid item xs={3} >
+                <Typography style={{fontSize:'10pt'}}>
+                    Listens: 69
+                </Typography> 
+            </Grid>
+            <Grid item xs={1}>
+                <IconButton onClick={(event) => {
+                        handleDeleteList(event, idNamePair._id)
+                    }} aria-label='delete'>
+                    <KeyboardDoubleArrowDownIcon style={{fontSize:'18pt'}} />
+                </IconButton>
+            </Grid>
+           </Grid> 
         </ListItem>
 
     if (editActive) {
