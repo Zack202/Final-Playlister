@@ -11,6 +11,7 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import { Grid, Typography } from '@mui/material';
+import WorkspaceScreen from './WorkspaceScreen';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -22,6 +23,7 @@ import { Grid, Typography } from '@mui/material';
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
+    const [expandActive, setExpandActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
@@ -36,6 +38,7 @@ function ListCard(props) {
 
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
+            document.getElementById(id).style.color = "red";
         }
     }
 
@@ -69,6 +72,11 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
+    function handleExpandSongs(event,id){
+        event.stopPropagation();
+        handleLoadList(event, id);
+        setExpandActive(true);
+    }
 
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -78,12 +86,19 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+    
+    let x = <Box></Box>
+    if (store.currentList){
+        if((store.currentList._id == idNamePair._id) && expandActive)
+        x = <WorkspaceScreen></WorkspaceScreen>
+    }
+
     let cardElement =
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
             sx={{ marginTop: '15px', display: 'flex', p: 1, border: 1, alignItems: "start",borderRadius: "10px" }}
-            style={{ width: '100%', fontSize: '16pt' }}
+            style={{ width: '100%', fontSize: '16pt',color: "blue" }}
             button
             onClick={(event) => {
                 handleLoadList(event, idNamePair._id)
@@ -110,6 +125,11 @@ function ListCard(props) {
                     By: McKilla Gorilla
                 </Typography> 
             </Grid>
+            <Grid item xs={12} id={idNamePair._id + idNamePair._id}>
+                
+                    
+                {x}
+            </Grid>
             <Grid item xs={8} >
                 <Typography style={{fontSize:'10pt'}}>
                     Published: Date
@@ -122,8 +142,8 @@ function ListCard(props) {
             </Grid>
             <Grid item xs={1}>
                 <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
+                handleExpandSongs(event, idNamePair._id)
+            }} aria-label='expand'>
                     <KeyboardDoubleArrowDownIcon style={{fontSize:'18pt'}} />
                 </IconButton>
             </Grid>

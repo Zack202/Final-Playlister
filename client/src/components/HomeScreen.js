@@ -41,7 +41,7 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '90%', left: '5%' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -58,8 +58,13 @@ const HomeScreen = () => {
     let aName = "";
     if (store.currentList){
          pName = store.currentList.name;
-         sName = store.currentList[store.currentSongNumber].title;
-         aName = store.currentList[store.currentSongNumber].artist;
+         if(store.currentList.songs.length != 0){
+         sName = store.currentList.songs[store.currentSongNumber].title;
+         aName = store.currentList.songs[store.currentSongNumber].artist;
+         } else {
+            sName = "???";
+            aName = "???";
+         }
     }
     return (
         <div>
