@@ -21,6 +21,7 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 import StopIcon from '@mui/icons-material/Stop';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FastForwardIcon from '@mui/icons-material/FastForward';
+import yt from '../PlaylisterYouTubePlayer';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -36,6 +37,7 @@ const HomeScreen = () => {
     function handleCreateNewList() {
         store.createNewList();
     }
+    
     let listCard = "";
     if (store) {
         listCard = 
@@ -50,6 +52,14 @@ const HomeScreen = () => {
                 ))
             }
             </List>;
+    }
+    let pName = "";
+    let sName = "";
+    let aName = "";
+    if (store.currentList){
+         pName = store.currentList.name;
+         sName = store.currentList[store.currentSongNumber].title;
+         aName = store.currentList[store.currentSongNumber].artist;
     }
     return (
         <div>
@@ -112,12 +122,12 @@ const HomeScreen = () => {
            <Grid container spacing={6} padding ={1}>
             <Grid
                 item
-                xs={6}
-                sx = {{height : "70%"}}
+                xs={7}
+                sx = {{height : "50%"}}
                 id="list-selector-list"
             >{listCard}</Grid>
-            <Grid item xs = {6} >
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "grey",borderRadius:"10px" }}>
+            <Grid item xs = {5} >
+            <Box id="playerComment" sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "grey",borderRadius:"10px" }}>
             <Tabs  aria-label="nav tabs example">
                  <Tab label="Player"  />
                   <Tab label="Comments"  />
@@ -130,9 +140,9 @@ const HomeScreen = () => {
                     <Typography
                             size="large"
                             edge="end"
-                            fontSize='30pt'
+                            fontSize='14pt'
                             color="inherit"
-                        >Playlist: ???
+                        >Playlist: {pName}
                         </Typography>
                     </Grid>
                     <Grid item xs = {12}>
@@ -140,9 +150,9 @@ const HomeScreen = () => {
                     <Typography
                             size="large"
                             edge="end"
-                            fontSize='30pt'
+                            fontSize='14pt'
                             color="inherit"
-                        >Song#: ???
+                        >Song#: {store.currentSongNumber}
                         </Typography>
                     </Grid>
                     <Grid item xs = {12}>
@@ -150,9 +160,9 @@ const HomeScreen = () => {
                     <Typography
                             size="large"
                             edge="end"
-                            fontSize='30pt'
+                            fontSize='14pt'
                             color="inherit"
-                        >Title: ???
+                        >Title: {sName}
                         </Typography>
                     </Grid>
                     <Grid item xs = {12}>
@@ -160,9 +170,9 @@ const HomeScreen = () => {
                     <Typography
                             size="large"
                             edge="end"
-                            fontSize='30pt'
+                            fontSize='14pt'
                             color="inherit"
-                        >Artist: ???
+                        >Artist: {aName}
                         </Typography>
                     </Grid>
             </Grid>
@@ -174,6 +184,8 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            transform= "scale(1.8)"
+                            id = "prev-button"
                         >
                         </FastRewindIcon>
                     </Grid>
@@ -183,6 +195,8 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            transform= "scale(1.8)"
+                            id = "stop-button"
                         >
                         </StopIcon>
                     </Grid>
@@ -192,6 +206,8 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            transform= "scale(1.8)"
+                            id = "play-button"
                         >
                         </PlayArrowIcon>
                     </Grid>
@@ -201,6 +217,8 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            transform= "scale(1.8)"
+                            id = "next-button"
                         >
                         </FastForwardIcon>
                     </Grid>

@@ -1,13 +1,14 @@
 import { padding } from '@mui/system';
-import React from 'react';
 import YouTube from 'react-youtube';
+import React, { useContext, useEffect } from 'react'
+import { GlobalStoreContext } from './store/index'
 
 export default function YouTubePlayerExample() {
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
-
+    const { store } = useContext(GlobalStoreContext);
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
     let playlist = [
         "mqmxkGjow1A",
@@ -19,8 +20,8 @@ export default function YouTubePlayerExample() {
     let currentSong = 0;
 
     const playerOptions = {
-        height: '390',
-        width: '640',
+        height: '280',
+        width: '605',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
@@ -31,6 +32,7 @@ export default function YouTubePlayerExample() {
     // THE PLAYER AND PLAYS IT
     function loadAndPlayCurrentSong(player) {
         let song = playlist[currentSong];
+        store.getCurrentSongNum(currentSong);
         player.loadVideoById(song);
         player.playVideo();
     }
@@ -39,6 +41,12 @@ export default function YouTubePlayerExample() {
     function incSong() {
         currentSong++;
         currentSong = currentSong % playlist.length;
+    }
+    function inc2Song() {
+        currentSong++;
+        if(currentSong > playlist.length){
+            currentSong = 0;
+        }
     }
 
     function onPlayerReady(event) {
@@ -58,6 +66,7 @@ export default function YouTubePlayerExample() {
             console.log("-1 Video unstarted");
         } else if (playerStatus === 0) {
             // THE VIDEO HAS COMPLETED PLAYING
+            
             console.log("0 Video ended");
             incSong();
             loadAndPlayCurrentSong(player);
@@ -74,7 +83,35 @@ export default function YouTubePlayerExample() {
             // THE VIDEO HAS BEEN CUED
             console.log("5 Video cued");
         }
+        var playButton = document.getElementById("play-button");
+        playButton.addEventListener("click", function() {
+        player.playVideo();
+        });
+
+        var playButton = document.getElementById("stop-button");
+        playButton.addEventListener("click", function() {
+        player.pauseVideo();
+        });
+
+        var playButton = document.getElementById("prev-button");
+        playButton.addEventListener("click", function() {
+            currentSong--;
+        currentSong = currentSong % playlist.length;
+            console.log(currentSong);
+        loadAndPlayCurrentSong(player)
+        });
+
+        var playButton = document.getElementById("next-button");
+        playButton.addEventListener("click", function() {
+            console.log(currentSong);
+            currentSong++;
+            if(currentSong > playlist.length){
+                currentSong = 0;
+            }
+        loadAndPlayCurrentSong(player)
+        });
     }
+
 
     return <YouTube
         videoId={playlist[currentSong]}
