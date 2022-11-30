@@ -69,11 +69,11 @@ function WorkspaceScreen() {
                   
             }
             <div class = "unselected-list-card" style={{textAlign: "center"}} onClick={handleClick}>+</div>
-            <Grid container spacing={1}>
-            <Grid item xs={1}><Button onClick={(event) => {
+            <Grid container spacing={0} >
+            <Grid item xs={1} variant="contained" id='undo-button' disabled={!store.canUndo()}><Button onClick={(event) => {
                         handleUndo(event)
-                    }} aria-label='Undo'>Undo</Button></Grid>
-            <Grid item xs={6}><Button onClick={(event) => {
+                    }} >Undo</Button></Grid>
+            <Grid item xs={6} disabled={!store.canRedo()}><Button onClick={(event) => {
                         handleRedo(event)
                     }} aria-label='Redo'>Redo</Button></Grid>
             <Grid item xs={1.5}><Button onClick={(event) => {

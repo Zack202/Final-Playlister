@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect,useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
@@ -29,7 +29,7 @@ import yt from '../PlaylisterYouTubePlayer';
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
-
+    const [playerActive, setPlayerActive] = useState(0);
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
@@ -37,7 +37,126 @@ const HomeScreen = () => {
     function handleCreateNewList() {
         store.createNewList();
     }
-    
+    let pName = "";
+    let sName = "";
+    let aName = "";
+    if (store.currentList){
+         pName = store.currentList.name;
+         if(store.currentList.songs.length != 0){
+         sName = store.currentList.songs[store.currentSongNumber].title;
+         aName = store.currentList.songs[store.currentSongNumber].artist;
+         } else {
+            sName = "???";
+            aName = "???";
+         }
+    }
+
+    let playerComments = <div></div>
+    function handleComments() {
+        setPlayerActive(1);
+    }
+    function handlePlayer() {
+        setPlayerActive(0);
+    }
+    if (playerActive == 0){
+         playerComments = <div>
+        <YouTubePlayerExample />
+        <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', color: "blue" }}>
+        <Grid container spacing = {2} padding = {1} style = {{contentAlign: "center", marginLeft: "20%"}}>
+        <Grid item xs = {12}>
+        Now Playing
+                <Typography
+                        size="large"
+                        edge="end"
+                        fontSize='14pt'
+                        color="inherit"
+                    >Playlist: {pName}
+                    </Typography>
+                </Grid>
+                <Grid item xs = {12}>
+                
+                <Typography
+                        size="large"
+                        edge="end"
+                        fontSize='14pt'
+                        color="inherit"
+                    >Song#: {store.currentSongNumber}
+                    </Typography>
+                </Grid>
+                <Grid item xs = {12}>
+                
+                <Typography
+                        size="large"
+                        edge="end"
+                        fontSize='14pt'
+                        color="inherit"
+                    >Title: {sName}
+                    </Typography>
+                </Grid>
+                <Grid item xs = {12}>
+                
+                <Typography
+                        size="large"
+                        edge="end"
+                        fontSize='14pt'
+                        color="inherit"
+                    >Artist: {aName}
+                    </Typography>
+                </Grid>
+        </Grid>
+        <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', color: "blue" }}>
+            <Grid container spacing = {2} padding = {1} style = {{contentAlign: "center", marginLeft: "20%"}}>
+                <Grid item xs = {2}>
+                <FastRewindIcon
+                        size="large"
+                        edge="end"
+                        fontSize='30pt'
+                        color="inherit"
+                        transform= "scale(1.8)"
+                        id = "prev-button"
+                    >
+                    </FastRewindIcon>
+                </Grid>
+                <Grid item xs = {2}>
+                <StopIcon
+                        size="large"
+                        edge="end"
+                        fontSize='30pt'
+                        color="inherit"
+                        transform= "scale(1.8)"
+                        id = "stop-button"
+                    >
+                    </StopIcon>
+                </Grid>
+                <Grid item xs = {2}>
+                <PlayArrowIcon
+                        size="large"
+                        edge="end"
+                        fontSize='30pt'
+                        color="inherit"
+                        transform= "scale(1.8)"
+                        id = "play-button"
+                    >
+                    </PlayArrowIcon>
+                </Grid>
+                <Grid item xs = {2}>
+                <FastForwardIcon
+                        size="large"
+                        edge="end"
+                        fontSize='30pt'
+                        color="inherit"
+                        transform= "scale(1.8)"
+                        id = "next-button"
+                    >
+                    </FastForwardIcon>
+                </Grid>
+            </Grid>
+        </Box>
+        </Box>
+        </div>
+    }else {
+        playerComments = <div></div>
+    }
     let listCard = "";
     if (store) {
         listCard = 
@@ -53,19 +172,7 @@ const HomeScreen = () => {
             }
             </List>;
     }
-    let pName = "";
-    let sName = "";
-    let aName = "";
-    if (store.currentList){
-         pName = store.currentList.name;
-         if(store.currentList.songs.length != 0){
-         sName = store.currentList.songs[store.currentSongNumber].title;
-         aName = store.currentList.songs[store.currentSongNumber].artist;
-         } else {
-            sName = "???";
-            aName = "???";
-         }
-    }
+   
     return (
         <div>
         <div id="toolBarChanger">
@@ -133,103 +240,12 @@ const HomeScreen = () => {
             >{listCard}</Grid>
             <Grid item xs = {5} >
             <Box id="playerComment" sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "grey",borderRadius:"10px" }}>
-            <Tabs  aria-label="nav tabs example">
-                 <Tab label="Player"  />
-                  <Tab label="Comments"  />
+            <Tabs  value = {playerActive} aria-label="nav tabs example">
+                 <Tab label="Player" onClick={handlePlayer}/>
+                  <Tab label="Comments" onClick={handleComments}/>
             </Tabs>
-            <YouTubePlayerExample />
-            <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', color: "blue" }}>
-            <Grid container spacing = {2} padding = {1} style = {{contentAlign: "center", marginLeft: "20%"}}>
-            <Grid item xs = {12}>
-            Now Playing
-                    <Typography
-                            size="large"
-                            edge="end"
-                            fontSize='14pt'
-                            color="inherit"
-                        >Playlist: {pName}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs = {12}>
-                    
-                    <Typography
-                            size="large"
-                            edge="end"
-                            fontSize='14pt'
-                            color="inherit"
-                        >Song#: {store.currentSongNumber}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs = {12}>
-                    
-                    <Typography
-                            size="large"
-                            edge="end"
-                            fontSize='14pt'
-                            color="inherit"
-                        >Title: {sName}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs = {12}>
-                    
-                    <Typography
-                            size="large"
-                            edge="end"
-                            fontSize='14pt'
-                            color="inherit"
-                        >Artist: {aName}
-                        </Typography>
-                    </Grid>
-            </Grid>
-            <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', color: "blue" }}>
-                <Grid container spacing = {2} padding = {1} style = {{contentAlign: "center", marginLeft: "20%"}}>
-                    <Grid item xs = {2}>
-                    <FastRewindIcon
-                            size="large"
-                            edge="end"
-                            fontSize='30pt'
-                            color="inherit"
-                            transform= "scale(1.8)"
-                            id = "prev-button"
-                        >
-                        </FastRewindIcon>
-                    </Grid>
-                    <Grid item xs = {2}>
-                    <StopIcon
-                            size="large"
-                            edge="end"
-                            fontSize='30pt'
-                            color="inherit"
-                            transform= "scale(1.8)"
-                            id = "stop-button"
-                        >
-                        </StopIcon>
-                    </Grid>
-                    <Grid item xs = {2}>
-                    <PlayArrowIcon
-                            size="large"
-                            edge="end"
-                            fontSize='30pt'
-                            color="inherit"
-                            transform= "scale(1.8)"
-                            id = "play-button"
-                        >
-                        </PlayArrowIcon>
-                    </Grid>
-                    <Grid item xs = {2}>
-                    <FastForwardIcon
-                            size="large"
-                            edge="end"
-                            fontSize='30pt'
-                            color="inherit"
-                            transform= "scale(1.8)"
-                            id = "next-button"
-                        >
-                        </FastForwardIcon>
-                    </Grid>
-                </Grid>
-            </Box>
-            </Box>
+            {playerComments}
+           
             </Box>
              </Grid>
                 <Grid item xs = {12}>

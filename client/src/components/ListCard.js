@@ -47,7 +47,13 @@ function ListCard(props) {
         event.stopPropagation();
         toggleEdit();
     }
-
+    function handleClick(event) {
+        event.stopPropagation();
+        // DOUBLE CLICK IS FOR SONG EDITING
+        if (event.detail === 2) {
+            handleToggleEdit(event);
+        }
+    }
     function toggleEdit() {
         let newActive = !editActive;
         if (newActive) {
@@ -105,6 +111,7 @@ function ListCard(props) {
             style={{ width: '100%', fontSize: '16pt',color: "blue" }}
             button
             onClick={(event) => {
+                handleClick(event)
                 handleLoadList(event, idNamePair._id)
             }}
         >

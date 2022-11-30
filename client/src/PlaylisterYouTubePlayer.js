@@ -10,14 +10,24 @@ export default function YouTubePlayerExample() {
     // FROM ONE SONG TO THE NEXT
     const { store } = useContext(GlobalStoreContext);
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
-    let playlist = [
-        "mqmxkGjow1A",
-        "8RbXIMZmVv8",
-        "8UbNbor3OqQ"
-    ];
+    const playlist = [];
+    let currentSong = 0;
+    if(store.currentList){
+        if(store.currentList.songs){
+            
+    store.currentList.songs.forEach(addYt);
+    function addYt(song){
+        playlist.push(song.youTubeId);
+    }
+}   
+}
+    //let playlist = [
+    //    "mqmxkGjow1A",
+    //    "8RbXIMZmVv8",
+    //    "8UbNbor3OqQ"
+    //];
 
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
-    let currentSong = 0;
 
     const playerOptions = {
         height: '280',
@@ -32,21 +42,26 @@ export default function YouTubePlayerExample() {
     // THE PLAYER AND PLAYS IT
     function loadAndPlayCurrentSong(player) {
         let song = playlist[currentSong];
-        store.getCurrentSongNum(currentSong);
+        store.getCurrentSongNum(store.currentSongNumber);
         player.loadVideoById(song);
         player.playVideo();
     }
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
-        currentSong++;
-        currentSong = currentSong % playlist.length;
+        console.log(store.currentSongNumber);
+        store.getCurrentSongNum(store.currentSongNumber +1);
+        console.log(store.currentSongNumber);
+        store.getCurrentSongNum(store.currentSongNumber % playlist.length);
+        console.log(store.currentSongNumber);
     }
-    function inc2Song() {
-        currentSong++;
-        if(currentSong > playlist.length){
-            currentSong = 0;
+    function decSong() {
+        console.log(currentSong);
+        currentSong--;
+        if(currentSong < 0){
+            currentSong = playlist.length -1;
         }
+        console.log(currentSong);
     }
 
     function onPlayerReady(event) {

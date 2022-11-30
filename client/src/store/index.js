@@ -244,8 +244,8 @@ function GlobalStoreContextProvider(props) {
     // DRIVE THE STATE OF THE APPLICATION. WE'LL CALL THESE IN 
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
 
-    store.getCurrentSongNum = function (currentSongNumber) {
-        storeReducer({
+    store.getCurrentSongNum = async function (currentSongNumber) {
+        await storeReducer({
             type: GlobalStoreActionType.UPDATE_SONG_NUMBER,
             payload: {
                 currentSongNumber : currentSongNumber
@@ -253,7 +253,7 @@ function GlobalStoreContextProvider(props) {
         });
     }
     // THIS FUNCTION PROCESSES CHANGING A LIST NAME
-    store.changeListName = function (id, newName) {
+    store.changeListName =function (id, newName) {
         // GET THE LIST
         async function asyncChangeListName(id) {
             let response = await api.getPlaylistById(id);
