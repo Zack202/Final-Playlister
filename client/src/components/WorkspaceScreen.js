@@ -4,6 +4,8 @@ import SongCard from './SongCard.js'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid'
 import List from '@mui/material/List';
 import { GlobalStoreContext } from '../store/index.js'
 /*
@@ -27,7 +29,29 @@ function WorkspaceScreen() {
     else if (store.isRemoveSongModalOpen()) {
         modalJSX = <MUIRemoveSongModal />;
     }
-    return (
+    function handleClick(event) {
+        event.stopPropagation();
+        store.addNewSong();
+    }
+    function handleUndo(event) {
+        event.stopPropagation();
+        store.undo();
+    }
+    function handleRedo(event) {
+        event.stopPropagation();
+        store.redo();
+    }
+    function handlePublish(event) {
+        event.stopPropagation();
+    }
+    function handleDelete(event) {
+        event.stopPropagation();
+        store.markListForDeletion();
+    }
+    function handleDuplicate(event) {
+        event.stopPropagation();
+    }
+    return (<div>
         <Box>
         <List 
             id="playlist-cards" 
@@ -41,11 +65,32 @@ function WorkspaceScreen() {
                         index={index}
                         song={song}
                     />
-                ))  
+                ))
+                  
             }
+            <div class = "unselected-list-card" style={{textAlign: "center"}} onClick={handleClick}>+</div>
+            <Grid container spacing={1}>
+            <Grid item xs={1}><Button onClick={(event) => {
+                        handleUndo(event)
+                    }} aria-label='Undo'>Undo</Button></Grid>
+            <Grid item xs={6}><Button onClick={(event) => {
+                        handleRedo(event)
+                    }} aria-label='Redo'>Redo</Button></Grid>
+            <Grid item xs={1.5}><Button onClick={(event) => {
+                        handlePublish(event)
+                    }} aria-label='Publish'>Publish</Button></Grid>
+            <Grid item xs={1.5}><Button onClick={(event) => {
+                        handleDelete(event)
+                    }} aria-label='Delete'>Delete</Button></Grid>
+            <Grid item xs={1.5}><Button onClick={(event) => {
+                        handleDuplicate(event)
+                    }} aria-label='Duplicate'>Duplicate</Button></Grid>
+            </Grid>
          </List>            
-         { modalJSX }
+         
          </Box>
+         { modalJSX }
+         </div>
     )
 }
 

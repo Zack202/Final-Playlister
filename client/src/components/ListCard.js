@@ -29,6 +29,7 @@ function ListCard(props) {
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
+        setExpandActive(false);
         if (!event.target.disabled) {
             let _id = event.target.id;
             if (_id.indexOf('list-card-text-') >= 0)
@@ -75,7 +76,7 @@ function ListCard(props) {
     function handleExpandSongs(event,id){
         event.stopPropagation();
         handleLoadList(event, id);
-        setExpandActive(true);
+        setExpandActive(!expandActive);
     }
 
     let selectClass = "unselected-list-card";
@@ -88,10 +89,13 @@ function ListCard(props) {
     }
     
     let x = <Box></Box>
+    let y = <KeyboardDoubleArrowDownIcon style={{fontSize:'18pt'}} />
     if (store.currentList){
-        if((store.currentList._id == idNamePair._id) && expandActive)
+        if((store.currentList._id == idNamePair._id) && expandActive){
         x = <WorkspaceScreen></WorkspaceScreen>
+        y = <KeyboardDoubleArrowUpIcon style={{fontSize:'18pt'}}></KeyboardDoubleArrowUpIcon>
     }
+}
 
     let cardElement =
         <ListItem
@@ -144,7 +148,7 @@ function ListCard(props) {
                 <IconButton onClick={(event) => {
                 handleExpandSongs(event, idNamePair._id)
             }} aria-label='expand'>
-                    <KeyboardDoubleArrowDownIcon style={{fontSize:'18pt'}} />
+                    {y}
                 </IconButton>
             </Grid>
            </Grid> 

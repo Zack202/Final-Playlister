@@ -308,15 +308,15 @@ function GlobalStoreContextProvider(props) {
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
-            let newList = response.data.playlist;
+            let playlist = response.data.playlist;
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_LIST,
-                payload: newList
+                payload: null
             }
             );
-
+            store.loadIdNamePairs();
+        
             // IF IT'S A VALID LIST THEN LET'S START EDITING IT
-            history.push("/playlist/" + newList._id);
         }}catch (error){
         if (error.response.status === 402) {
             storeReducer({
@@ -352,7 +352,8 @@ function GlobalStoreContextProvider(props) {
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
     // FUNCTIONS ARE markListForDeletion, deleteList, deleteMarkedList,
     // showDeleteListModal, and hideDeleteListModal
-    store.markListForDeletion = function (id) {
+    store.markListForDeletion = function () {
+        let id = store.currentList._id;
         async function getListToDelete(id) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {

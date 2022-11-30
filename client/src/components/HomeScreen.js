@@ -74,7 +74,7 @@ const HomeScreen = () => {
             <HomeOutlinedIcon
                             size="large"
                             edge="end"
-                            onClick = {handleCreateNewList}
+                            
                             color="inherit"
                             fontSize='30pt'
                         >
@@ -238,6 +238,7 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            onClick = {handleCreateNewList}
                         >+ Your Lists
                         </Typography>
                     
