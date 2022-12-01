@@ -1,3 +1,4 @@
+const { listenerCount } = require('../models/playlist-model');
 const Playlist = require('../models/playlist-model')
 const User = require('../models/user-model');
 /*
@@ -222,10 +223,28 @@ updatePlaylist = async (req, res) => {
         asyncFindUser(playlist);
     })
 }
+getPlaylistByName = async (req, res) => {
+    console.log("Find Playlist with id: " + JSON.stringify(req.params.name));
+
+    await Playlist.find({ name: req.params.name }, (err, list) => {
+        if (err) {
+            console.log("bruh");
+            return res.status(401).json({ success: false, error: err });
+        }
+        console.log("Found list: " + JSON.stringify(list));
+        
+        // DOES THIS LIST BELONG TO THIS USER?
+        const result = list.filter(x => list.ownerEmail = req.userId)
+
+            return res.status(200).json({ success: true, playlist: result })
+        
+    }).catch(err => console.log(err))
+}
 module.exports = {
     createPlaylist,
     deletePlaylist,
     getPlaylistById,
+    getPlaylistByName,
     getPlaylistPairs,
     getPlaylists,
     updatePlaylist

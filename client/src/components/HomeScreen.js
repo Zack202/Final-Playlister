@@ -35,7 +35,7 @@ const HomeScreen = () => {
     }, []);
 
     function handleCreateNewList() {
-        store.createNewList();
+        store.createNewList("");
     }
     let pName = "";
     let sName = "";
