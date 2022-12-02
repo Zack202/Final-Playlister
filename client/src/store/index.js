@@ -299,7 +299,42 @@ function GlobalStoreContextProvider(props) {
             payload: {}
         });
     }
-
+    store.dupePlaylist = async function (copy){
+        let newListName = store.currentList.name + copy;
+        const response = await api.getPlaylistByName(newListName);
+        if(response.data.playlist.length <= 0){
+        try {
+        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email);
+        console.log("createNewList response: " + response);
+        if (response.status === 201) {
+            tps.clearAllTransactions();
+            let playlist = response.data.playlist;
+            storeReducer({
+                type: GlobalStoreActionType.CREATE_NEW_LIST,
+                payload: null
+            }
+            );
+            store.loadIdNamePairs();
+        
+            // IF IT'S A VALID LIST THEN LET'S START EDITING IT
+        }}catch (error){
+        if (error.response.status === 402) {
+            storeReducer({
+                type: GlobalStoreActionType.CREATE_NEW_LIST,
+                payload: null
+            });
+        }else{
+            console.log("API FAILED TO CREATE A NEW LIST");
+        }
+    }
+    } else {
+        storeReducer({
+            type: GlobalStoreActionType.CREATE_NEW_LIST,
+            payload: null
+        });
+        store.dupePlaylist(copy + " of a copy")
+    }
+    }
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function (copy) {
         let newListName = "Untitled" + store.newListCounter + copy;
@@ -327,7 +362,6 @@ function GlobalStoreContextProvider(props) {
                 type: GlobalStoreActionType.CREATE_NEW_LIST,
                 payload: null
             });
-            store.createNewList();
         }else{
             console.log("API FAILED TO CREATE A NEW LIST");
         }

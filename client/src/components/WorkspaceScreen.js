@@ -51,6 +51,10 @@ function WorkspaceScreen() {
     function handleDuplicate(event) {
         event.stopPropagation();
     }
+    function handleDuplicate(event){
+        event.stopPropagation();
+        store.dupePlaylist("");
+    }
     return (<div>
         <Box>
         <List 
