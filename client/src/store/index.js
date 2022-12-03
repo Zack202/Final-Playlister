@@ -299,6 +299,11 @@ function GlobalStoreContextProvider(props) {
             payload: {}
         });
     }
+    store.increaseListen = function () {
+        store.currentList.listens = store.currentList.listens + 1;
+        store.loadIdNamePairs();
+        store.updateCurrentList();
+    }
     store.dupePlaylist = async function (copy){
         let newListName = store.currentList.name + copy;
         const response = await api.getPlaylistByName(newListName);
@@ -377,6 +382,22 @@ function GlobalStoreContextProvider(props) {
 } 
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
+    store.loadIdNamePairsPublished = function () {
+        async function asyncLoadIdNamePairsPublished() {
+            const response = await api.getPlaylistPairsPublished();
+            if (response.data.success) {
+                let pairsArray = response.data.idNamePairs;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    payload: pairsArray
+                });
+            }
+            else {
+                console.log("API FAILED TO GET THE LIST PAIRS");
+            }
+        }
+        asyncLoadIdNamePairsPublished();
+    }
     store.loadIdNamePairs = function () {
         async function asyncLoadIdNamePairs() {
             const response = await api.getPlaylistPairs();

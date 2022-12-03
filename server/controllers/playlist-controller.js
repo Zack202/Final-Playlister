@@ -159,6 +159,47 @@ getPlaylistPairs = async (req, res) => {
         asyncFindList(user.email);
     }).catch(err => console.log(err))
 }
+getPlaylistPairsPublished = async (req, res) => {
+    console.log("getPlaylistPairsPublished");
+        async function asyncFindPublishList() {
+            await Playlist.find({ published: true }, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            listens: list.listens,
+                            published: list.published,
+                            date: list.updatedAt,
+                            userName: list.userName
+
+                            
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+        }
+        asyncFindPublishList();
+    
+}
 getPlaylists = async (req, res) => {
     await Playlist.find({}, (err, playlists) => {
         if (err) {
@@ -257,6 +298,7 @@ module.exports = {
     createPlaylist,
     deletePlaylist,
     getPlaylistById,
+    getPlaylistPairsPublished,
     getPlaylistByName,
     getPlaylistPairs,
     getPlaylists,

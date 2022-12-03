@@ -58,6 +58,12 @@ const HomeScreen = () => {
     function handlePlayer() {
         setPlayerActive(0);
     }
+    function handleLoadPlayer() {
+        store.loadIdNamePairs();
+    }
+    function handlePublishLists(){
+        store.loadIdNamePairsPublished();
+    }
     if (playerActive == 0){
          playerComments = <div>
         <YouTubePlayerExample />
@@ -184,6 +190,7 @@ const HomeScreen = () => {
                             
                             color="inherit"
                             fontSize='30pt'
+                            onClick={handleLoadPlayer}
                         >
                         </HomeOutlinedIcon>
                         </Grid>
@@ -193,6 +200,7 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            onClick={handlePublishLists}
                         >
                         </GroupsOutlinedIcon>
                         </Grid>
@@ -202,6 +210,7 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            onClick={handlePublishLists}
                         >
                         </PersonOutlineOutlinedIcon>
                         </Grid>

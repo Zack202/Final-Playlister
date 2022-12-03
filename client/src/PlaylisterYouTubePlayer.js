@@ -88,6 +88,7 @@ export default function YouTubePlayerExample() {
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
             console.log("1 Video played");
+            store.increaseListen();
         } else if (playerStatus === 2) {
             // THE VIDEO IS PAUSED
             console.log("2 Video paused");
