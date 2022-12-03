@@ -43,6 +43,7 @@ function WorkspaceScreen() {
     }
     function handlePublish(event) {
         event.stopPropagation();
+        store.publishList();
     }
     function handleDelete(event) {
         event.stopPropagation();

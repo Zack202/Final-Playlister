@@ -335,6 +335,7 @@ function GlobalStoreContextProvider(props) {
         store.dupePlaylist(copy + " of a copy")
     }
     }
+    
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function (copy) {
         let newListName = "Untitled" + store.newListCounter + copy;
@@ -591,6 +592,10 @@ function GlobalStoreContextProvider(props) {
         };
         let transaction = new UpdateSong_Transaction(this, index, oldSongData, newSongData);        
         tps.addTransaction(transaction);
+    }
+    store.publishList = function(){
+        store.currentList.published = true;
+        store.updateCurrentList();
     }
     store.updateCurrentList = function() {
         async function asyncUpdateCurrentList() {
