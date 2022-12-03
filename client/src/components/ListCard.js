@@ -96,6 +96,11 @@ function ListCard(props) {
     
     let x = <Box></Box>
     let y = <KeyboardDoubleArrowDownIcon style={{fontSize:'18pt'}} />
+    let like = idNamePair.likes.length;
+    let dislike = idNamePair.dislikes.length;
+    let listens = idNamePair.listens;
+    let date = (idNamePair.date).substring(0,idNamePair.date.indexOf('T'));
+    let uName = idNamePair.userName;
     if (store.currentList){
         if((store.currentList._id == idNamePair._id) && expandActive){
         x = <WorkspaceScreen></WorkspaceScreen>
@@ -121,7 +126,7 @@ function ListCard(props) {
                 <IconButton onClick={handleToggleEdit} aria-label='edit'>
                     <ThumbUpOffAltIcon style={{fontSize:'18pt'}} />
                 </IconButton>
-                12
+                {like}
             </Grid>
             <Grid item xs={2} >
                 <IconButton onClick={(event) => {
@@ -129,11 +134,11 @@ function ListCard(props) {
                     }} aria-label='delete'>
                     <ThumbDownOffAltIcon style={{fontSize:'18pt'}} />
                 </IconButton>
-                12
+                {dislike}
             </Grid>
             <Grid item xs={12} >
                 <Typography style={{fontSize:'10pt'}}>
-                    By: McKilla Gorilla
+                    By: {uName}
                 </Typography> 
             </Grid>
             <Grid item xs={12} id={idNamePair._id + idNamePair._id}>
@@ -143,12 +148,12 @@ function ListCard(props) {
             </Grid>
             <Grid item xs={8} >
                 <Typography style={{fontSize:'10pt'}}>
-                    Published: Date
+                    Published: {date}
                 </Typography> 
             </Grid>
             <Grid item xs={3} >
                 <Typography style={{fontSize:'10pt'}}>
-                    Listens: 69
+                    Listens: {listens}
                 </Typography> 
             </Grid>
             <Grid item xs={1}>

@@ -304,7 +304,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getPlaylistByName(newListName);
         if(response.data.playlist.length <= 0){
         try {
-        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email);
+        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email,[],[],0,false,[],auth.user.userName);
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -343,7 +343,7 @@ function GlobalStoreContextProvider(props) {
             
         
         try {
-        const response = await api.createPlaylist(newListName, [], auth.user.email);
+        const response = await api.createPlaylist(newListName, [], auth.user.email,[],[],0,false,[],auth.user.userName);
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
