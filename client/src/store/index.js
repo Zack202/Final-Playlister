@@ -29,9 +29,12 @@ export const GlobalStoreActionType = {
     MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
+    SET_LIST_NAME_EDIT_UNACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     EDIT_SONG: "EDIT_SONG",
     REMOVE_SONG: "REMOVE_SONG",
-    HIDE_MODALS: "HIDE_MODALS"
+    HIDE_MODALS: "HIDE_MODALS",
+    UPDATE_SONG_NUMBER: "UPDATE_SONG_NUMBER",
+
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -58,7 +61,8 @@ function GlobalStoreContextProvider(props) {
         listNameActive: false,
         listIdMarkedForDeletion: null,
         listMarkedForDeletion: null,
-        currentSongNumber:0
+        currentSongNumber:0,
+        eMessage:""
     });
     const history = useHistory();
 
@@ -78,14 +82,15 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload.idNamePairs,
-                    currentList: null,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: payload.editMessage
                 });
             }
             // STOP EDITING THE CURRENT LIST
@@ -100,7 +105,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 })
             }
             // CREATE A NEW LIST
@@ -115,7 +121,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -130,7 +137,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -145,7 +153,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: payload.id,
                     listMarkedForDeletion: payload.playlist,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 });
             }
             // UPDATE A LIST
@@ -160,7 +169,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 });
             }
             // START EDITING A LIST NAME
@@ -175,7 +185,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: true,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 });
             }
             // 
@@ -190,7 +201,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -204,7 +216,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 });
             }
             case GlobalStoreActionType.HIDE_MODALS: {
@@ -218,7 +231,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0
+                    currentSongNumber:0,
+                    eMessage: store.eMessage
                 });
             }
             case GlobalStoreActionType.UPDATE_SONG_NUMBER: {
@@ -232,7 +246,8 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:payload.currentSongNumber
+                    currentSongNumber:payload.currentSongNumber,
+                    eMessage: store.eMessage
                 });
             }
             default:
@@ -253,8 +268,11 @@ function GlobalStoreContextProvider(props) {
         });
     }
     // THIS FUNCTION PROCESSES CHANGING A LIST NAME
-    store.changeListName =function (id, newName) {
+    store.changeListName = async function (id, newName) {
         // GET THE LIST
+        async function attemptsync(id,newName){
+        const response = await api.getPlaylistByName(newName);
+        if(response.data.playlist.length <=0||(response.data.playlist.length == 1 && response.data.playlist[0]._id == store.currentList._id)){
         async function asyncChangeListName(id) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
@@ -270,9 +288,11 @@ function GlobalStoreContextProvider(props) {
                                 storeReducer({
                                     type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                     payload: {
-                                        idNamePairs: pairsArray
+                                        idNamePairs: pairsArray,
+                                        editMessage: ""
                                     }
                                 });
+                                
                             }
                         }
                         getListPairs(playlist);
@@ -282,6 +302,17 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncChangeListName(id);
+    } else {
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_LIST_NAME,
+            payload: {
+                idNamePairs: store.idNamePairs,
+                editMessage: "- Please enter a unique name"
+            }
+        });
+    }
+}
+attemptsync(id,newName)
     }
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST

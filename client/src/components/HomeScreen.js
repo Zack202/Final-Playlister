@@ -64,6 +64,8 @@ const HomeScreen = () => {
     function handlePublishLists(){
         store.loadIdNamePairsPublished();
     }
+
+    
     if (playerActive == 0){
          playerComments = <div>
         <YouTubePlayerExample />

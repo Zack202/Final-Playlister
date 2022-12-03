@@ -61,6 +61,7 @@ function ListCard(props) {
         }
         setEditActive(newActive);
     }
+    
 
     async function handleDeleteList(event, id) {
         event.stopPropagation();
@@ -68,8 +69,7 @@ function ListCard(props) {
         _id = ("" + _id).substring("delete-list-".length);
         store.markListForDeletion(id);
     }
-
-    function handleKeyPress(event) {
+     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
             store.changeListName(id, text);
@@ -78,6 +78,9 @@ function ListCard(props) {
     }
     function handleUpdateText(event) {
         setText(event.target.value);
+        if(event.target.value == idNamePair){
+            
+        }
     }
     function handleExpandSongs(event,id){
         event.stopPropagation();
@@ -173,7 +176,7 @@ function ListCard(props) {
                 required
                 fullWidth
                 id={"list-" + idNamePair._id}
-                label="Playlist Name"
+                label={"Playlist Name" + store.eMessage}
                 name="name"
                 autoComplete="Playlist Name"
                 className='list-card'
