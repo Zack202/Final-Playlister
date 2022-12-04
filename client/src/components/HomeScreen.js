@@ -34,6 +34,7 @@ const HomeScreen = () => {
     const [comment, setComment] = useState("");
     const [idNameUpdate, setidNameUpdate] = useState([]);
     const [playerActive, setPlayerActive] = useState(0);
+    const [searchChoose, setsearchChoose] = useState(false);
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
@@ -68,15 +69,28 @@ const HomeScreen = () => {
     }
     function handleLoadPlayer() {
         store.loadIdNamePairs();
+        setPlayerActive(0);
+        setsearchChoose(false);
     }
-    function handlePublishLists(){
+    function handlePublishListsName(){
         store.loadIdNamePairsPublished();
+        setPlayerActive(0);
+        setsearchChoose(false);
+    }
+    function handlePublishListsUser(){
+        store.loadIdNamePairsPublished();
+        setPlayerActive(0);
+        setsearchChoose(true);
     }
     function handleKeyPress (event){
             if (event.code === "Enter") {
+                if(searchChoose == false){
                 let arr = store.idNamePairs;
                 setidNameUpdate(arr.filter(e => (e.name).includes(text)));
-                
+                } else if (searchChoose == true){
+                    let arr = store.idNamePairs;
+                setidNameUpdate(arr.filter(e => (e.userName).includes(text)));
+                }
             }
     }
     function handleKeyPress2(event){
@@ -254,7 +268,7 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
-                            onClick={handlePublishLists}
+                            onClick={handlePublishListsName}
                         >
                         </GroupsOutlinedIcon>
                         </Grid>
@@ -264,7 +278,7 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
-                            onClick={handlePublishLists}
+                            onClick={handlePublishListsUser}
                         >
                         </PersonOutlineOutlinedIcon>
                         </Grid>
