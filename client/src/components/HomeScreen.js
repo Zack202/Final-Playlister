@@ -29,6 +29,8 @@ import yt from '../PlaylisterYouTubePlayer';
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const [text, setText] = useState("");
+    const [idNameUpdate, setidNameUpdate] = useState([]);
     const [playerActive, setPlayerActive] = useState(0);
     useEffect(() => {
         store.loadIdNamePairs();
@@ -64,8 +66,19 @@ const HomeScreen = () => {
     function handlePublishLists(){
         store.loadIdNamePairsPublished();
     }
-
-    
+    function handleKeyPress (event){
+            if (event.code === "Enter") {
+                let arr = store.idNamePairs;
+                setidNameUpdate(arr.filter(e => (e.name).includes(text)));
+                
+            }
+    }
+    if(text == "" && idNameUpdate !==store.idNamePairs){
+        setidNameUpdate(store.idNamePairs)
+    }
+    function handleUpdateText (event){
+        setText(event.target.value);
+    }
     if (playerActive == 0){
          playerComments = <div>
         <YouTubePlayerExample />
@@ -170,7 +183,7 @@ const HomeScreen = () => {
         listCard = 
             <List sx={{ width: '90%', left: '5%' }}>
             {
-                store.idNamePairs.map((pair) => (
+                idNameUpdate.map((pair) => (
                     <ListCard
                         key={pair._id}
                         idNamePair={pair}
@@ -222,6 +235,8 @@ const HomeScreen = () => {
                                     fullWidth
                                     id="searchBar"
                                     label="Search"
+                                    onKeyPress={handleKeyPress}
+                                    onChange={handleUpdateText}
                                 />
                                 </Grid>
             <Grid item xs={0} >
