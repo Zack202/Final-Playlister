@@ -82,6 +82,7 @@ const HomeScreen = () => {
     function handleKeyPress2(event){
         if (event.code === "Enter") {
             store.addComment(comment);
+            event.target.value = "";
         }
 }
     if(text == "" && idNameUpdate !==store.idNamePairs){
@@ -191,7 +192,7 @@ const HomeScreen = () => {
         </div>
     }else {
         if(store.currentList){
-        playerComments = <div><List sx={{ width: '90%', left: '5%', overflowY: "scroll", maxHeight:"45vh"}}>
+        playerComments = <div><List sx={{ width: '90%', left: '5%', overflowY: "scroll", height:"45vh"}}>
         {
             
             store.currentList.comments.map((pair) => (
@@ -225,6 +226,7 @@ const HomeScreen = () => {
                         key={pair.comment}
                         idNamePair={pair}
                         selected={false}
+                        switcher={setPlayerActive}
                     />
                 ))
             }

@@ -25,7 +25,7 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const [expandActive, setExpandActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected } = props;
+    const { idNamePair, selected,switcher } = props;
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -39,7 +39,7 @@ function ListCard(props) {
 
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
-            
+            switcher(0);
             document.getElementById(id).style.color = "red";
         }
     }
