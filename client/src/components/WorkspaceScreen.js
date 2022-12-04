@@ -49,12 +49,27 @@ function WorkspaceScreen() {
         event.stopPropagation();
         store.markListForDeletion();
     }
-    function handleDuplicate(event) {
-        event.stopPropagation();
-    }
     function handleDuplicate(event){
         event.stopPropagation();
         store.dupePlaylist("");
+    }
+    let undoButton = <Button onClick={(event) => {
+        handleUndo(event)
+    }} >Undo</Button>;
+    let redoButton = <Button onClick={(event) => {
+        handleRedo(event)
+    }} aria-label='Redo'>Redo</Button>;
+    let publishButton = <Button onClick={(event) => {
+        handlePublish(event)
+    }} aria-label='Publish'>Publish</Button>;
+    let addSongButton = <div class = "unselected-list-card" style={{textAlign: "center"}} onClick={handleClick}>+</div>
+    if(store.currentList){
+        if(store.currentList.published == true){
+            undoButton = <div></div>;
+            redoButton = <div></div>;
+            publishButton = <div></div>;
+            addSongButton = <div></div>
+        }
     }
     return (<div>
         <Box>
@@ -73,17 +88,11 @@ function WorkspaceScreen() {
                 ))
                   
             }
-            <div class = "unselected-list-card" style={{textAlign: "center"}} onClick={handleClick}>+</div>
+            {addSongButton}
             <Grid container spacing={0} >
-            <Grid item xs={1} variant="contained" id='undo-button' disabled={!store.canUndo()}><Button onClick={(event) => {
-                        handleUndo(event)
-                    }} >Undo</Button></Grid>
-            <Grid item xs={6} disabled={!store.canRedo()}><Button onClick={(event) => {
-                        handleRedo(event)
-                    }} aria-label='Redo'>Redo</Button></Grid>
-            <Grid item xs={1.5}><Button onClick={(event) => {
-                        handlePublish(event)
-                    }} aria-label='Publish'>Publish</Button></Grid>
+            <Grid item xs={1} variant="contained" id='undo-button' disabled={!store.canUndo()}>{undoButton}</Grid>
+            <Grid item xs={6} disabled={!store.canRedo()}>{redoButton}</Grid>
+            <Grid item xs={1.5}>{publishButton}</Grid>
             <Grid item xs={1.5}><Button onClick={(event) => {
                         handleDelete(event)
                     }} aria-label='Delete'>Delete</Button></Grid>

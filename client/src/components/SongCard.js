@@ -7,24 +7,36 @@ function SongCard(props) {
     const { song, index } = props;
 
     function handleDragStart(event) {
-        event.dataTransfer.setData("song", index);
+        if(store.currentList){
+            if(store.currentList.published == false){
+                event.dataTransfer.setData("song", index);
+            }
+        }
     }
 
     function handleDragOver(event) {
+        if(store.currentList){
+            if(store.currentList.published == false){
         event.preventDefault();
+            }}
     }
 
     function handleDragEnter(event) {
+        if(store.currentList){
+            if(store.currentList.published == false){
         event.preventDefault();
-        setDraggedTo(true);
+        setDraggedTo(true);}}
     }
 
     function handleDragLeave(event) {
+        if(store.currentList){
+            if(store.currentList.published == false){
         event.preventDefault();
-        setDraggedTo(false);
+        setDraggedTo(false);}}
     }
 
-    function handleDrop(event) {
+    function handleDrop(event) {if(store.currentList){
+        if(store.currentList.published == false){
         event.preventDefault();
         let targetIndex = index;
         let sourceIndex = Number(event.dataTransfer.getData("song"));
@@ -32,18 +44,31 @@ function SongCard(props) {
 
         // UPDATE THE LIST
         store.addMoveSongTransaction(sourceIndex, targetIndex);
-    }
+    }}}
     function handleRemoveSong(event) {
         store.showRemoveSongModal(index, song);
     }
     function handleClick(event) {
+        if(store.currentList){
+            if(store.currentList.published == false){
         event.stopPropagation();
         // DOUBLE CLICK IS FOR SONG EDITING
         if (event.detail === 2) {
             store.showEditSongModal(index, song);
+        }}}
+    }
+    let removeSongButton = <input
+    type="button"
+    id={"remove-song-" + index}
+    className="list-card-button"
+    value={"\u2715"}
+    onClick={handleRemoveSong}
+/>;
+    if(store.currentList){
+        if(store.currentList.published == true){
+            removeSongButton = <div></div>;
         }
     }
-
     let cardClass = "list-card unselected-list-card";
     return (
         <div
@@ -65,13 +90,7 @@ function SongCard(props) {
                 >
                 {song.title} by {song.artist}
             </a>
-            <input
-                type="button"
-                id={"remove-song-" + index}
-                className="list-card-button"
-                value={"\u2715"}
-                onClick={handleRemoveSong}
-            />
+            {removeSongButton}
         </div>
     );
 }

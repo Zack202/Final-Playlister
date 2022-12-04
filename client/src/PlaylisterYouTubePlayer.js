@@ -15,7 +15,7 @@ export default function YouTubePlayerExample() {
     if(store.currentList){
         if(store.currentList.songs){
             
-    store.currentList.songs.forEach(addYt);
+    //store.currentList.songs.forEach(addYt);
     function addYt(song){
         playlist.push(song.youTubeId);
     }
@@ -83,12 +83,12 @@ export default function YouTubePlayerExample() {
             // THE VIDEO HAS COMPLETED PLAYING
             
             console.log("0 Video ended");
-            incSong();
-            loadAndPlayCurrentSong(player);
+            //incSong();
+            //loadAndPlayCurrentSong(player);
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
             console.log("1 Video played");
-            store.increaseListen();
+            //store.increaseListen();
         } else if (playerStatus === 2) {
             // THE VIDEO IS PAUSED
             console.log("2 Video paused");

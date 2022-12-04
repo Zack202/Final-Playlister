@@ -648,6 +648,7 @@ attemptsync(id,newName)
     store.publishList = function(){
         store.currentList.published = true;
         store.updateCurrentList();
+        store.loadIdNamePairs();
     }
     store.updateCurrentList = function() {
         async function asyncUpdateCurrentList() {

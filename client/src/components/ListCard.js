@@ -79,7 +79,7 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
         if(event.target.value == idNamePair){
-            
+
         }
     }
     function handleExpandSongs(event,id){
@@ -110,6 +110,28 @@ function ListCard(props) {
         y = <KeyboardDoubleArrowUpIcon style={{fontSize:'18pt'}}></KeyboardDoubleArrowUpIcon>
     }
 }
+    let likeButton = <div></div>;
+    let dislikeButton = <div></div>;
+    let publishedDate = <div></div>;
+    let listensDisplay = <div></div>
+    if(idNamePair.published == true){
+        likeButton = <div><IconButton onClick={handleToggleEdit} aria-label='edit'>
+        <ThumbUpOffAltIcon style={{fontSize:'18pt'}} />
+    </IconButton>
+    {like}</div>
+        dislikeButton = <div><IconButton onClick={(event) => {
+            handleDeleteList(event, idNamePair._id)
+        }} aria-label='delete'>
+        <ThumbDownOffAltIcon style={{fontSize:'18pt'}} />
+    </IconButton>
+    {dislike}</div>
+    publishedDate = <Typography style={{fontSize:'10pt'}}>
+    Published: {date}
+    </Typography>
+    listensDisplay = <Typography style={{fontSize:'10pt'}}>
+    Listens: {listens}
+</Typography> 
+    }
 
     let cardElement =
         <ListItem
@@ -126,18 +148,10 @@ function ListCard(props) {
         <Grid container spacing={1}>
             <Grid item xs={8}>{idNamePair.name}</Grid>
             <Grid item xs={2}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <ThumbUpOffAltIcon style={{fontSize:'18pt'}} />
-                </IconButton>
-                {like}
+            {likeButton}
             </Grid>
             <Grid item xs={2} >
-                <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <ThumbDownOffAltIcon style={{fontSize:'18pt'}} />
-                </IconButton>
-                {dislike}
+                {dislikeButton}
             </Grid>
             <Grid item xs={12} >
                 <Typography style={{fontSize:'10pt'}}>
@@ -150,14 +164,10 @@ function ListCard(props) {
                 {x}
             </Grid>
             <Grid item xs={8} >
-                <Typography style={{fontSize:'10pt'}}>
-                    Published: {date}
-                </Typography> 
+                {publishedDate} 
             </Grid>
             <Grid item xs={3} >
-                <Typography style={{fontSize:'10pt'}}>
-                    Listens: {listens}
-                </Typography> 
+                {listensDisplay}
             </Grid>
             <Grid item xs={1}>
                 <IconButton onClick={(event) => {
