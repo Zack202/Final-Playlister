@@ -39,6 +39,7 @@ function ListCard(props) {
 
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
+            
             document.getElementById(id).style.color = "red";
         }
     }

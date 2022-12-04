@@ -1,6 +1,7 @@
 import React, { useContext, useEffect,useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
+import CommentCard from './CommentCard'
 import MUIDeleteModal from './MUIDeleteModal'
 
 import AddIcon from '@mui/icons-material/Add';
@@ -30,6 +31,7 @@ import yt from '../PlaylisterYouTubePlayer';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [text, setText] = useState("");
+    const [comment, setComment] = useState("");
     const [idNameUpdate, setidNameUpdate] = useState([]);
     const [playerActive, setPlayerActive] = useState(0);
     useEffect(() => {
@@ -42,7 +44,11 @@ const HomeScreen = () => {
     let pName = "";
     let sName = "";
     let aName = "";
+    let commentTab = true;
     if (store.currentList){
+        if(store.currentList.published == true){
+            commentTab = false;
+        }
          pName = store.currentList.name;
          if(store.currentList.songs.length != 0){
          sName = store.currentList.songs[store.currentSongNumber].title;
@@ -73,11 +79,19 @@ const HomeScreen = () => {
                 
             }
     }
+    function handleKeyPress2(event){
+        if (event.code === "Enter") {
+            store.addComment(comment);
+        }
+}
     if(text == "" && idNameUpdate !==store.idNamePairs){
         setidNameUpdate(store.idNamePairs)
     }
     function handleUpdateText (event){
         setText(event.target.value);
+    }
+    function handleUpdateComment (event){
+        setComment(event.target.value);
     }
     if (playerActive == 0){
          playerComments = <div>
@@ -176,8 +190,31 @@ const HomeScreen = () => {
         </Box>
         </div>
     }else {
+        if(store.currentList){
+        playerComments = <div><List sx={{ width: '90%', left: '5%', overflowY: "scroll", maxHeight:"45vh"}}>
+        {
+            
+            store.currentList.comments.map((pair) => (
+                <CommentCard
+                    key={pair.userName}
+                    idNamePair={pair}
+                />
+            ))
+        }
+        </List>
+        <TextField
+                                    name="commentBar"
+                                    fullWidth
+                                    id="commentBar"
+                                    label="Add Comment"
+                                    onKeyPress={handleKeyPress2}
+                                    onChange={handleUpdateComment}
+                                />
+                                </div>
+    } else {
         playerComments = <div></div>
     }
+}
     let listCard = "";
     if (store) {
         listCard = 
@@ -185,7 +222,7 @@ const HomeScreen = () => {
             {
                 idNameUpdate.map((pair) => (
                     <ListCard
-                        key={pair._id}
+                        key={pair.comment}
                         idNamePair={pair}
                         selected={false}
                     />
@@ -268,7 +305,7 @@ const HomeScreen = () => {
             <Box id="playerComment" sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "grey",borderRadius:"10px" }}>
             <Tabs  value = {playerActive} aria-label="nav tabs example">
                  <Tab label="Player" onClick={handlePlayer}/>
-                  <Tab label="Comments" onClick={handleComments}/>
+                  <Tab label="Comments" onClick={handleComments} disabled={commentTab}/>
             </Tabs>
             {playerComments}
            

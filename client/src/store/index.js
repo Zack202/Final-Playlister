@@ -645,6 +645,12 @@ attemptsync(id,newName)
         let transaction = new UpdateSong_Transaction(this, index, oldSongData, newSongData);        
         tps.addTransaction(transaction);
     }
+    store.addComment = function(text){
+        let list = store.currentList
+        let commentNew = {userName:auth.user.userName,comment:text}
+        list.comments.push(commentNew);
+        store.updateCurrentList();
+    }
     store.publishList = function(){
         store.currentList.published = true;
         store.updateCurrentList();
