@@ -116,13 +116,11 @@ function ListCard(props) {
     let publishedDate = <div></div>;
     let listensDisplay = <div></div>
     if(idNamePair.published == true){
-        likeButton = <div><IconButton onClick={handleToggleEdit} aria-label='edit'>
+        likeButton = <div><IconButton onClick={""} aria-label='edit'>
         <ThumbUpOffAltIcon style={{fontSize:'18pt'}} />
     </IconButton>
     {like}</div>
-        dislikeButton = <div><IconButton onClick={(event) => {
-            handleDeleteList(event, idNamePair._id)
-        }} aria-label='delete'>
+        dislikeButton = <div><IconButton onClick={""} aria-label='delete'>
         <ThumbDownOffAltIcon style={{fontSize:'18pt'}} />
     </IconButton>
     {dislike}</div>

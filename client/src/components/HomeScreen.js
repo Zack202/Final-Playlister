@@ -22,6 +22,8 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 import StopIcon from '@mui/icons-material/Stop';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FastForwardIcon from '@mui/icons-material/FastForward';
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import yt from '../PlaylisterYouTubePlayer';
 /*
     This React component lists all the top5 lists in the UI.
@@ -35,10 +37,17 @@ const HomeScreen = () => {
     const [idNameUpdate, setidNameUpdate] = useState([]);
     const [playerActive, setPlayerActive] = useState(0);
     const [searchChoose, setsearchChoose] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const isMenuOpen = Boolean(anchorEl);
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
-
+    const handleProfileMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
     function handleCreateNewList() {
         store.createNewList("");
     }
@@ -59,7 +68,16 @@ const HomeScreen = () => {
             aName = "???";
          }
     }
-
+    function handleSortName(){
+            let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.name < p2.name) ? 1 : (p1.name > p2.name) ? -1 : 0);
+            console.log(sortedProducts);
+            handleMenuClose();
+    }
+    function handleSortLikes(){
+        let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.likes.length < p2.likes.length) ? 1 : (p1.likes.length > p2.likes.length) ? -1 : 0);
+        console.log(sortedProducts);
+        handleMenuClose();
+}
     let playerComments = <div></div>
     function handleComments() {
         setPlayerActive(1);
@@ -301,6 +319,8 @@ const HomeScreen = () => {
                             edge="end"
                             fontSize='30pt'
                             color="inherit"
+                            onClick={handleProfileMenuOpen}
+                            
                         >
                         </SortOutlinedIcon>
                         </Grid>
@@ -339,8 +359,28 @@ const HomeScreen = () => {
                     
                 </Grid>
              </Grid>
-            
             </div>
+            <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+        >
+            <MenuItem >Publish Date (Newest)</MenuItem>
+            <MenuItem >Last Edited Date (Newest)</MenuItem>
+            <MenuItem >Listens (High - Low)</MenuItem>
+            <MenuItem >Likes (High - Low)</MenuItem>
+            <MenuItem >Dislikes (High - Low)</MenuItem>
+            <MenuItem onClick={handleSortName}>Name (A - Z)</MenuItem>
+        </Menu>
                 
                 
     

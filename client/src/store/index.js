@@ -63,7 +63,7 @@ function GlobalStoreContextProvider(props) {
         listMarkedForDeletion: null,
         currentSongNumber:0,
         eMessage:"",
-        searchName:false
+        
     });
     const history = useHistory();
 
@@ -92,7 +92,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: payload.editMessage,
-                    searchName:store.searchName
+                    
                 });
             }
             // STOP EDITING THE CURRENT LIST
@@ -109,7 +109,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                    
                 })
             }
             // CREATE A NEW LIST
@@ -126,7 +126,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                    
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -143,7 +143,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                    
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -160,7 +160,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: payload.playlist,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                    
                 });
             }
             // UPDATE A LIST
@@ -177,7 +177,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                    
                 });
             }
             // START EDITING A LIST NAME
@@ -194,7 +194,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                    
                 });
             }
             // 
@@ -211,7 +211,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                   
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -227,7 +227,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                    
                 });
             }
             case GlobalStoreActionType.HIDE_MODALS: {
@@ -243,7 +243,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
+                   
                 });
             }
             case GlobalStoreActionType.UPDATE_SONG_NUMBER: {
@@ -259,23 +259,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:payload.currentSongNumber,
                     eMessage: store.eMessage,
-                    searchName:store.searchName
-                });
-            }
-            case GlobalStoreActionType.SEARCH_BY: {
-                return setStore({
-                    currentModal : CurrentModal.NONE,
-                    idNamePairs: store.idNamePairs,
-                    currentList: store.currentList,
-                    currentSongIndex: -1,
-                    currentSong: null,
-                    newListCounter: store.newListCounter,
-                    listNameActive: false,
-                    listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null,
-                    currentSongNumber:store.currentSongNumber,
-                    eMessage: store.eMessage,
-                    searchName:payload.searchName
+                    
                 });
             }
             default:
@@ -286,14 +270,6 @@ function GlobalStoreContextProvider(props) {
     // THESE ARE THE FUNCTIONS THAT WILL UPDATE OUR STORE AND
     // DRIVE THE STATE OF THE APPLICATION. WE'LL CALL THESE IN 
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
-    store.searchNameChanger= function (newChange){
-        storeReducer({
-            type: GlobalStoreActionType.SEARCH_BY,
-            payload: {
-                searchName:newChange
-            }
-        });
-    }
     store.getCurrentSongNum = async function (currentSongNumber) {
         await storeReducer({
             type: GlobalStoreActionType.UPDATE_SONG_NUMBER,
