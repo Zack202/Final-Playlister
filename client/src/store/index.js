@@ -270,6 +270,86 @@ function GlobalStoreContextProvider(props) {
     // THESE ARE THE FUNCTIONS THAT WILL UPDATE OUR STORE AND
     // DRIVE THE STATE OF THE APPLICATION. WE'LL CALL THESE IN 
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
+    store.checkLikes = async function (ids){
+            async function asyncChangeListName(id) {
+                let response = await api.getPlaylistById(id);
+                if (response.data.success) {
+                    let playlist = response.data.playlist;
+                    if(!(playlist.likes.includes(auth.user.userName))){
+                        if(playlist.dislikes.includes(auth.user.userName)){
+                            playlist.dislikes.pop(auth.user.userName);
+                        }
+                        playlist.likes.push(auth.user.userName);
+                    async function updateList(playlist) {
+                        response = await api.updatePlaylistById(playlist._id, playlist);
+                        if (response.data.success) {
+                            async function getListPairs(playlist) {
+                                response = await api.getPlaylistPairs();
+                                if (response.data.success) {
+                                    let pairsArray = response.data.idNamePairs;
+                                    storeReducer({
+                                        type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                        payload: {
+                                            idNamePairs: pairsArray,
+                                            editMessage: ""
+                                        }
+                                    });
+                                    
+                                }
+                            }
+                            getListPairs(playlist);
+                        }
+                    }
+                
+                    updateList(playlist);
+                }
+                }
+            }
+            asyncChangeListName(ids);
+            
+        
+    }
+    store.checkDislikes = async function (ids){
+        async function asyncChangeListName(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                if(!(playlist.dislikes.includes(auth.user.userName))){
+                    if(playlist.likes.includes(auth.user.userName)){
+                        playlist.likes.pop(auth.user.userName);
+                    }
+                    playlist.dislikes.push(auth.user.userName);
+                async function updateList(playlist) {
+                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    if (response.data.success) {
+                        async function getListPairs(playlist) {
+                            response = await api.getPlaylistPairs();
+                            if (response.data.success) {
+                                let pairsArray = response.data.idNamePairs;
+                                storeReducer({
+                                    type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                    payload: {
+                                        idNamePairs: pairsArray,
+                                        editMessage: ""
+                                    }
+                                });
+                                
+                            }
+                        }
+                        getListPairs(playlist);
+                    }
+                }
+            
+                updateList(playlist);
+            }
+            }
+        }
+        asyncChangeListName(ids);
+        
+    
+}
+
+
     store.getCurrentSongNum = async function (currentSongNumber) {
         await storeReducer({
             type: GlobalStoreActionType.UPDATE_SONG_NUMBER,

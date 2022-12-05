@@ -64,12 +64,12 @@ function ListCard(props) {
     }
     
 
-    async function handleDeleteList(event, id) {
+    /*async function handleDeleteList(event, id) {
         event.stopPropagation();
         let _id = event.target.id;
         _id = ("" + _id).substring("delete-list-".length);
         store.markListForDeletion(id);
-    }
+    }*/
      function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
@@ -87,6 +87,14 @@ function ListCard(props) {
         event.stopPropagation();
         handleLoadList(event, id);
         setExpandActive(!expandActive);
+    }
+    function handleLikes(event){
+        event.stopPropagation();
+        store.checkLikes(idNamePair._id);
+    }
+    function handleDislikes(event){
+        event.stopPropagation();
+        store.checkDislikes(idNamePair._id);
     }
 
     let selectClass = "unselected-list-card";
@@ -120,11 +128,15 @@ function ListCard(props) {
     console.log(idNamePair.published)
     if((idNamePair.published) !== blankDate.toISOString()){
         
-        likeButton = <div><IconButton onClick={""} aria-label='edit'>
+        likeButton = <div><IconButton onClick={(event) => {
+            handleLikes(event)
+        }} aria-label='likes'>
         <ThumbUpOffAltIcon style={{fontSize:'18pt'}} />
     </IconButton>
     {like}</div>
-        dislikeButton = <div><IconButton onClick={""} aria-label='delete'>
+        dislikeButton = <div><IconButton onClick={(event) => {
+            handleDislikes(event)
+        }} aria-label='dislikes'>
         <ThumbDownOffAltIcon style={{fontSize:'18pt'}} />
     </IconButton>
     {dislike}</div>

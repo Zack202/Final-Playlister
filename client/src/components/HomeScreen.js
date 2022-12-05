@@ -70,7 +70,7 @@ const HomeScreen = () => {
          }
     }
     function handleSortName(){
-            let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.name < p2.name) ? 1 : (p1.name > p2.name) ? -1 : 0);
+            let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.name < p2.name) ? -1 : (p1.name > p2.name) ? 1 : 0);
             console.log(sortedProducts);
             handleMenuClose();
     }
