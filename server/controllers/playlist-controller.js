@@ -162,7 +162,7 @@ getPlaylistPairs = async (req, res) => {
 getPlaylistPairsPublished = async (req, res) => {
     console.log("getPlaylistPairsPublished");
         async function asyncFindPublishList() {
-            await Playlist.find({ published: true }, (err, playlists) => {
+            await Playlist.find({ "published": {$gt: new Date(0).toISOString()} }, (err, playlists) => {
                 console.log("found Playlists: " + JSON.stringify(playlists));
                 if (err) {
                     return res.status(400).json({ success: false, error: err })

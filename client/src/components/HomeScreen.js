@@ -55,8 +55,9 @@ const HomeScreen = () => {
     let sName = "";
     let aName = "";
     let commentTab = true;
+    const blankDate = new Date(0);
     if (store.currentList){
-        if(store.currentList.published == true){
+        if(store.currentList.published == blankDate.toISOString()){
             commentTab = false;
         }
          pName = store.currentList.name;

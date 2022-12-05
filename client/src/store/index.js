@@ -351,7 +351,7 @@ attemptsync(id,newName)
         const response = await api.getPlaylistByName(newListName);
         if(response.data.playlist.length <= 0){
         try {
-        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email,[],[],0,false,[],auth.user.userName);
+        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email,[],[],0,new Date(0),[],auth.user.userName);
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -391,7 +391,7 @@ attemptsync(id,newName)
             
         
         try {
-        const response = await api.createPlaylist(newListName, [], auth.user.email,[],[],0,false,[],auth.user.userName);
+        const response = await api.createPlaylist(newListName, [], auth.user.email,[],[],0,new Date(0),[],auth.user.userName);
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -663,7 +663,7 @@ attemptsync(id,newName)
         store.updateCurrentList();
     }
     store.publishList = function(){
-        store.currentList.published = true;
+        store.currentList.published = new Date();
         store.updateCurrentList();
         store.loadIdNamePairs();
     }

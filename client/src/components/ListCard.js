@@ -103,7 +103,7 @@ function ListCard(props) {
     let like = idNamePair.likes.length;
     let dislike = idNamePair.dislikes.length;
     let listens = idNamePair.listens;
-    let date = (idNamePair.date).substring(0,idNamePair.date.indexOf('T'));
+    let date = (idNamePair.published).substring(0,idNamePair.date.indexOf('T'));
     let uName = idNamePair.userName;
     if (store.currentList){
         if((store.currentList._id == idNamePair._id) && expandActive){
@@ -115,7 +115,11 @@ function ListCard(props) {
     let dislikeButton = <div></div>;
     let publishedDate = <div></div>;
     let listensDisplay = <div></div>
-    if(idNamePair.published == true){
+    const blankDate = new Date(0);
+     
+    console.log(idNamePair.published)
+    if((idNamePair.published) !== blankDate.toISOString()){
+        
         likeButton = <div><IconButton onClick={""} aria-label='edit'>
         <ThumbUpOffAltIcon style={{fontSize:'18pt'}} />
     </IconButton>
