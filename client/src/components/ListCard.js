@@ -28,6 +28,13 @@ function ListCard(props) {
     const { idNamePair, selected,switcher } = props;
 
     function handleLoadList(event, id) {
+        if(expandActive == true){
+            if(store.currentList){
+                if(store.currentList._id !== id){
+            setExpandActive(false);
+                }
+            }
+        }
         console.log("handleLoadList for " + id);
         if (!event.target.disabled) {
             let _id = event.target.id;
