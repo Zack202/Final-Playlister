@@ -29,7 +29,6 @@ function ListCard(props) {
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
-        setExpandActive(false);
         if (!event.target.disabled) {
             let _id = event.target.id;
             if (_id.indexOf('list-card-text-') >= 0)
@@ -88,7 +87,11 @@ function ListCard(props) {
     function handleExpandSongs(event,id){
         event.stopPropagation();
         handleLoadList(event, id);
-        setExpandActive(!expandActive);
+        setExpandActive(true);
+    }
+    function handleCompressSongs(event,id){
+        event.stopPropagation();
+        setExpandActive(false);
     }
     function handleLikes(event){
         event.stopPropagation();
@@ -118,7 +121,7 @@ function ListCard(props) {
     if (store.currentList){
         if((store.currentList._id == idNamePair._id) && expandActive){
         x = <WorkspaceScreen></WorkspaceScreen>
-        y = <KeyboardDoubleArrowUpIcon style={{fontSize:'18pt'}}></KeyboardDoubleArrowUpIcon>
+        y = <KeyboardDoubleArrowUpIcon style={{fontSize:'18pt'}} onClick = {handleCompressSongs}></KeyboardDoubleArrowUpIcon>
     }
 }
     let likeButton = <div></div>;

@@ -530,7 +530,11 @@ attemptsync(id,newName)
                 payload: null
             }
             );
+            if(store.screen == 0){
             store.loadIdNamePairs();
+            } else {
+                store.loadIdNamePairsPublished();
+            }
         
             // IF IT'S A VALID LIST THEN LET'S START EDITING IT
         }}catch (error){
