@@ -464,7 +464,7 @@ attemptsync(id,newName)
         store.updateCurrentList();
     }
     store.dupePlaylist = async function (copy){
-        let newListName = store.currentList.name + copy;
+        let newListName = copy + store.currentList.name ;
         const response = await api.getPlaylistByName(newListName);
         if(response.data.playlist.length <= 0){
         try {
@@ -496,7 +496,7 @@ attemptsync(id,newName)
             type: GlobalStoreActionType.CREATE_NEW_LIST,
             payload: null
         });
-        store.dupePlaylist(copy + " of a copy")
+        store.dupePlaylist("A copy of " + copy)
     }
     }
     
@@ -536,7 +536,7 @@ attemptsync(id,newName)
             type: GlobalStoreActionType.CREATE_NEW_LIST,
             payload: null
         });
-        store.createNewList(copy + " of a copy")
+        store.createNewList(copy + " new")
     }
 } 
 

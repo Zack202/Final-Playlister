@@ -114,18 +114,27 @@ const HomeScreen = () => {
         setPlayerActive(0);
         setsearchChoose(false);
         store.setScreen(0);
+        document.getElementById("houseG").style.color = "red";
+        document.getElementById("publishNameG").style.color = "black";
+        document.getElementById("publishUserG").style.color = "black"
     }
     function handlePublishListsName(){
         setPlayerActive(0);
         setsearchChoose(false);
         store.setScreen(1);
         console.log(store.screen);
+        document.getElementById("houseG").style.color = "black";
+        document.getElementById("publishNameG").style.color = "red";
+        document.getElementById("publishUserG").style.color = "black"
     }
     function handlePublishListsUser(){
 
         setPlayerActive(0);
         setsearchChoose(true);
         store.setScreen(2);
+        document.getElementById("houseG").style.color = "black";
+        document.getElementById("publishNameG").style.color = "black";
+        document.getElementById("publishUserG").style.color = "red"
     }
     function handleKeyPress (event){
             if (event.code === "Enter") {
@@ -291,38 +300,39 @@ const HomeScreen = () => {
             }
             </List>;
     }
-   
     return (
         <div>
         <div id="toolBarChanger">
             <Grid container spacing={2} padding={1}>
-            <Grid item xs={0}>
+            <Grid item xs={0} id = "houseG" color = "red">
             <HomeOutlinedIcon
                             size="large"
                             edge="end"
                             
-                            color="inherit"
                             fontSize='30pt'
+                            id = "house"
                             onClick={handleLoadPlayer}
                         >
                         </HomeOutlinedIcon>
                         </Grid>
-                        <Grid item xs={0} >
+                        <Grid item xs={0} id = "publishNameG">
                         <GroupsOutlinedIcon
                             size="large"
                             edge="end"
                             fontSize='30pt'
-                            color="inherit"
+                            
+                            id = "publishName"
                             onClick={handlePublishListsName}
                         >
                         </GroupsOutlinedIcon>
                         </Grid>
-                        <Grid item xs={1} >
+                        <Grid item xs={1} id = "publishUserG">
                         <PersonOutlineOutlinedIcon
                             size="large"
                             edge="end"
                             fontSize='30pt'
-                            color="inherit"
+                            
+                            id = "publishUser"
                             onClick={handlePublishListsUser}
                         >
                         </PersonOutlineOutlinedIcon>
