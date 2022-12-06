@@ -64,6 +64,7 @@ export default function YouTubePlayerExample() {
             loadAndPlayCurrentSong(player);
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
+            store.checkListens(store.currentList._id);
             console.log("1 Video played");
         } else if (playerStatus === 2) {
             // THE VIDEO IS PAUSED
