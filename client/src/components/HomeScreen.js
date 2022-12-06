@@ -132,6 +132,8 @@ const HomeScreen = () => {
         setPlayerActive(0);
     }
     function handleLoadPlayer() {
+        if(store.currentList)
+        document.getElementById(store.currentList._id).style.color = "blue";
         setPlayerActive(0);
         setsearchChoose(false);
         store.setScreen(0);
@@ -140,6 +142,8 @@ const HomeScreen = () => {
         document.getElementById("publishUserG").style.color = "black"
     }
     function handlePublishListsName(){
+        if(store.currentList)
+        document.getElementById(store.currentList._id).style.color = "blue";
         setPlayerActive(0);
         setsearchChoose(false);
         store.setScreen(1);
@@ -149,7 +153,8 @@ const HomeScreen = () => {
         document.getElementById("publishUserG").style.color = "black"
     }
     function handlePublishListsUser(){
-
+        if(store.currentList)
+        document.getElementById(store.currentList._id).style.color = "blue";
         setPlayerActive(0);
         setsearchChoose(true);
         store.setScreen(2);
@@ -159,6 +164,7 @@ const HomeScreen = () => {
     }
     function handleKeyPress (event){
             if (event.code === "Enter") {
+                store.closeCurrentList();
                 if(searchChoose == false){
                 let arr = store.idNamePairs;
                 setidNameUpdate(arr.filter(e => (e.name).includes(text)));

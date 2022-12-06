@@ -35,6 +35,8 @@ function ListCard(props) {
                 }
             }
         }
+        if(store.currentList)
+        document.getElementById(store.currentList._id).style.color = "blue";
         console.log("handleLoadList for " + id);
         if (!event.target.disabled) {
             let _id = event.target.id;
