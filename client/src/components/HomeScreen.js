@@ -40,8 +40,12 @@ const HomeScreen = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     useEffect(() => {
+        if(store.screen == 0){
         store.loadIdNamePairs();
-    }, []);
+        } else {
+            store.loadIdNamePairsPublished();
+        }
+    }, [store.screen]);
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -107,19 +111,21 @@ const HomeScreen = () => {
         setPlayerActive(0);
     }
     function handleLoadPlayer() {
-        store.loadIdNamePairs();
         setPlayerActive(0);
         setsearchChoose(false);
+        store.setScreen(0);
     }
     function handlePublishListsName(){
-        store.loadIdNamePairsPublished();
         setPlayerActive(0);
         setsearchChoose(false);
+        store.setScreen(1);
+        console.log(store.screen);
     }
     function handlePublishListsUser(){
-        store.loadIdNamePairsPublished();
+
         setPlayerActive(0);
         setsearchChoose(true);
+        store.setScreen(2);
     }
     function handleKeyPress (event){
             if (event.code === "Enter") {
@@ -368,7 +374,7 @@ const HomeScreen = () => {
            
             </Box>
              </Grid>
-                <Grid item xs = {12}>
+                <Grid item xs = {12} sx={{textAlign:"center"}}>
                     <Typography
                             size="large"
                             edge="end"

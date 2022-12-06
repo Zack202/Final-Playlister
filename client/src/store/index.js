@@ -34,7 +34,8 @@ export const GlobalStoreActionType = {
     REMOVE_SONG: "REMOVE_SONG",
     HIDE_MODALS: "HIDE_MODALS",
     UPDATE_SONG_NUMBER: "UPDATE_SONG_NUMBER",
-    SEARCH_BY: "SEARCH_BY"
+    SEARCH_BY: "SEARCH_BY",
+    UPDATE_SCREEN_NUMBER:"UPDATE_SCREEN_NUMBER"
 
 }
 
@@ -64,6 +65,7 @@ function GlobalStoreContextProvider(props) {
         listMarkedForDeletion: null,
         currentSongNumber:0,
         eMessage:"",
+        screen:0
         
     });
     const history = useHistory();
@@ -93,6 +95,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: payload.editMessage,
+                    screen:store.screen
                     
                 });
             }
@@ -110,7 +113,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
                 })
             }
             // CREATE A NEW LIST
@@ -127,7 +130,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -144,7 +147,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -161,7 +164,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: payload.playlist,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
                 });
             }
             // UPDATE A LIST
@@ -178,7 +181,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
                 });
             }
             // START EDITING A LIST NAME
@@ -195,7 +198,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
                 });
             }
             // 
@@ -212,7 +215,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                   
+                    screen:store.screen
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -228,7 +231,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
                 });
             }
             case GlobalStoreActionType.HIDE_MODALS: {
@@ -244,7 +247,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:0,
                     eMessage: store.eMessage,
-                   
+                    screen:store.screen
                 });
             }
             case GlobalStoreActionType.UPDATE_SONG_NUMBER: {
@@ -260,7 +263,23 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSongNumber:payload.currentSongNumber,
                     eMessage: store.eMessage,
-                    
+                    screen:store.screen
+                });
+            }
+            case GlobalStoreActionType.UPDATE_SCREEN_NUMBER: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    currentSongNumber:store.currentSongNumber,
+                    eMessage: store.eMessage,
+                    screen:payload
                 });
             }
             default:
@@ -271,6 +290,15 @@ function GlobalStoreContextProvider(props) {
     // THESE ARE THE FUNCTIONS THAT WILL UPDATE OUR STORE AND
     // DRIVE THE STATE OF THE APPLICATION. WE'LL CALL THESE IN 
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
+    store.setScreen = function (screen){
+        async function aScreen (screen){
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_SCREEN_NUMBER,
+            payload: screen
+        });
+        }
+        aScreen(screen);
+    }
     store.checkLikes = async function (ids){
             async function asyncChangeListName(id) {
                 let response = await api.getPlaylistById(id);
@@ -285,7 +313,11 @@ function GlobalStoreContextProvider(props) {
                         response = await api.updatePlaylistById(playlist._id, playlist);
                         if (response.data.success) {
                             async function getListPairs(playlist) {
+                                if(store.screen == 0){
+                                    response = await api.getPlaylistPairs();
+                                } else {
                                 response = await api.getPlaylistPairsPublished();
+                                }
                                 if (response.data.success) {
                                     let pairsArray = response.data.idNamePairs;
                                     storeReducer({
@@ -324,7 +356,11 @@ function GlobalStoreContextProvider(props) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
                     if (response.data.success) {
                         async function getListPairs(playlist) {
-                            response = await api.getPlaylistPairs();
+                            if(store.screen == 0){
+                                response = await api.getPlaylistPairs();
+                            } else {
+                            response = await api.getPlaylistPairsPublished();
+                            }
                             if (response.data.success) {
                                 let pairsArray = response.data.idNamePairs;
                                 storeReducer({

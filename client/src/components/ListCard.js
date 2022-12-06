@@ -51,9 +51,11 @@ function ListCard(props) {
     function handleClick(event) {
         event.stopPropagation();
         // DOUBLE CLICK IS FOR SONG EDITING
+        if((idNamePair.published) == blankDate.toISOString()){
         if (event.detail === 2) {
             handleToggleEdit(event);
         }
+    }
     }
     function toggleEdit() {
         let newActive = !editActive;
@@ -125,7 +127,6 @@ function ListCard(props) {
     let listensDisplay = <div></div>
     const blankDate = new Date(0);
      
-    console.log(idNamePair.published)
     if((idNamePair.published) !== blankDate.toISOString()){
         
         likeButton = <div><IconButton onClick={(event) => {

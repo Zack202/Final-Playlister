@@ -8,7 +8,7 @@ function SongCard(props) {
 
     function handleDragStart(event) {
         if(store.currentList){
-            if(store.currentList.published == false){
+            if(store.currentList.published == blankDate.toISOString()){
                 event.dataTransfer.setData("song", index);
             }
         }
@@ -16,27 +16,27 @@ function SongCard(props) {
 
     function handleDragOver(event) {
         if(store.currentList){
-            if(store.currentList.published == false){
+            if(store.currentList.published == blankDate.toISOString()){
         event.preventDefault();
             }}
     }
 
     function handleDragEnter(event) {
         if(store.currentList){
-            if(store.currentList.published == false){
+            if(store.currentList.published == blankDate.toISOString()){
         event.preventDefault();
         setDraggedTo(true);}}
     }
 
     function handleDragLeave(event) {
         if(store.currentList){
-            if(store.currentList.published == false){
+            if(store.currentList.published == blankDate.toISOString()){
         event.preventDefault();
         setDraggedTo(false);}}
     }
 
     function handleDrop(event) {if(store.currentList){
-        if(store.currentList.published == false){
+        if(store.currentList.published == blankDate.toISOString()){
         event.preventDefault();
         let targetIndex = index;
         let sourceIndex = Number(event.dataTransfer.getData("song"));
@@ -50,7 +50,7 @@ function SongCard(props) {
     }
     function handleClick(event) {
         if(store.currentList){
-            if(store.currentList.published == false){
+            if(store.currentList.published == blankDate.toISOString()){
         event.stopPropagation();
         // DOUBLE CLICK IS FOR SONG EDITING
         if (event.detail === 2) {
