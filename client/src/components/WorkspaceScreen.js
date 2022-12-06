@@ -58,6 +58,7 @@ function WorkspaceScreen() {
         let  redoButton = <div></div>;
         let  publishButton = <div></div>;
         let  addSongButton = <div></div>
+        let deleteButton = <div></div>
     const blankDate = new Date(0);
     
     if(store.currentList){
@@ -73,6 +74,11 @@ function WorkspaceScreen() {
             }} aria-label='Publish'>Publish</Button>;
              addSongButton = <div class = "unselected-list-card" style={{textAlign: "center"}} onClick={handleClick}>+</div>
         }
+    }
+    if (store.screen == 0){
+        deleteButton = <Button onClick={(event) => {
+            handleDelete(event)
+        }} aria-label='Delete'>Delete</Button>
     }
     return (<div>
         <Box>
@@ -96,9 +102,7 @@ function WorkspaceScreen() {
             <Grid item xs={1} variant="contained" id='undo-button' disabled={!store.canUndo()}>{undoButton}</Grid>
             <Grid item xs={6} disabled={!store.canRedo()}>{redoButton}</Grid>
             <Grid item xs={1.5}>{publishButton}</Grid>
-            <Grid item xs={1.5}><Button onClick={(event) => {
-                        handleDelete(event)
-                    }} aria-label='Delete'>Delete</Button></Grid>
+            <Grid item xs={1.5}>{deleteButton}</Grid>
             <Grid item xs={1.5}><Button onClick={(event) => {
                         handleDuplicate(event)
                     }} aria-label='Duplicate'>Duplicate</Button></Grid>

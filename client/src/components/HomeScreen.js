@@ -55,6 +55,27 @@ const HomeScreen = () => {
     function handleCreateNewList() {
         store.createNewList("");
     }
+    let addOrDisplay = <div></div>
+    if (text !== ""){
+     addOrDisplay = <Typography
+    size="large"
+    edge="end"
+    fontSize='30pt'
+    color="inherit"
+    
+>{text} Lists
+</Typography>
+    }
+    if (store.screen == 0){
+        addOrDisplay = <Typography
+        size="large"
+        edge="end"
+        fontSize='30pt'
+        color="inherit"
+        onClick = {handleCreateNewList}
+    >+ Your Lists
+    </Typography>
+    }
     let pName = "";
     let sName = "";
     let aName = "";
@@ -385,14 +406,7 @@ const HomeScreen = () => {
             </Box>
              </Grid>
                 <Grid item xs = {12} sx={{textAlign:"center"}}>
-                    <Typography
-                            size="large"
-                            edge="end"
-                            fontSize='30pt'
-                            color="inherit"
-                            onClick = {handleCreateNewList}
-                        >+ Your Lists
-                        </Typography>
+                    {addOrDisplay}
                     
                 </Grid>
              </Grid>
