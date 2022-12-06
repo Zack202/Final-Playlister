@@ -18,6 +18,7 @@ import AuthContext from '../auth'
 export const GlobalStoreContext = createContext({});
 console.log("create GlobalStoreContext");
 
+
 // THESE ARE ALL THE TYPES OF UPDATES TO OUR GLOBAL
 // DATA STORE STATE THAT CAN BE PROCESSED
 export const GlobalStoreActionType = {
@@ -284,7 +285,7 @@ function GlobalStoreContextProvider(props) {
                         response = await api.updatePlaylistById(playlist._id, playlist);
                         if (response.data.success) {
                             async function getListPairs(playlist) {
-                                response = await api.getPlaylistPairs();
+                                response = await api.getPlaylistPairsPublished();
                                 if (response.data.success) {
                                     let pairsArray = response.data.idNamePairs;
                                     storeReducer({
@@ -520,7 +521,7 @@ attemptsync(id,newName)
         }
         asyncLoadIdNamePairsPublished();
     }
-    store.loadIdNamePairs = function () {
+    store.loadIdNamePairs = async function () {
         async function asyncLoadIdNamePairs() {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
@@ -745,7 +746,6 @@ attemptsync(id,newName)
     store.publishList = function(){
         store.currentList.published = new Date();
         store.updateCurrentList();
-        store.loadIdNamePairs();
     }
     store.updateCurrentList = function() {
         async function asyncUpdateCurrentList() {

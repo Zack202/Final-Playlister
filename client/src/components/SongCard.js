@@ -64,8 +64,9 @@ function SongCard(props) {
     value={"\u2715"}
     onClick={handleRemoveSong}
 />;
+const blankDate = new Date(0);
     if(store.currentList){
-        if(store.currentList.published == true){
+        if(store.currentList.published !== blankDate.toISOString()){
             removeSongButton = <div></div>;
         }
     }

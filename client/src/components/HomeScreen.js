@@ -57,7 +57,7 @@ const HomeScreen = () => {
     let commentTab = true;
     const blankDate = new Date(0);
     if (store.currentList){
-        if(store.currentList.published == blankDate.toISOString()){
+        if(store.currentList.published !== blankDate.toISOString()){
             commentTab = false;
         }
          pName = store.currentList.name;
@@ -70,7 +70,7 @@ const HomeScreen = () => {
          }
     }
     function handleSortName(){
-            let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.name < p2.name) ? -1 : (p1.name > p2.name) ? 1 : 0);
+            let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.name.toUpperCase() < p2.name.toUpperCase()) ? -1 : (p1.name.toUpperCase() > p2.name.toUpperCase()) ? 1 : 0);
             console.log(sortedProducts);
             handleMenuClose();
     }
@@ -79,6 +79,26 @@ const HomeScreen = () => {
         console.log(sortedProducts);
         handleMenuClose();
 }
+    function handleSortDislikes(){
+        let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.dislikes.length < p2.dislikes.length) ? 1 : (p1.dislikes.length > p2.dislikes.length) ? -1 : 0);
+        console.log(sortedProducts);
+       handleMenuClose();
+    }
+    function handleSortListens(){
+        let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.listens < p2.listens) ? 1 : (p1.listens > p2.listens) ? -1 : 0);
+        console.log(sortedProducts);
+        handleMenuClose();
+    }
+    function handleSortPublished(){
+        let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.published < p2.published) ? 1 : (p1.published > p2.published) ? -1 : 0);
+        console.log(sortedProducts);
+        handleMenuClose();
+    }
+    function handleSortEdit(){
+        let sortedProducts = store.idNamePairs.sort((p1, p2) => (p1.updatedAt < p2.updatedAt) ? 1 : (p1.updatedAt > p2.updatedAt) ? -1 : 0);
+        console.log(sortedProducts);
+        handleMenuClose();
+    }
     let playerComments = <div></div>
     function handleComments() {
         setPlayerActive(1);
@@ -375,11 +395,11 @@ const HomeScreen = () => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem >Publish Date (Newest)</MenuItem>
-            <MenuItem >Last Edited Date (Newest)</MenuItem>
-            <MenuItem >Listens (High - Low)</MenuItem>
-            <MenuItem >Likes (High - Low)</MenuItem>
-            <MenuItem >Dislikes (High - Low)</MenuItem>
+            <MenuItem onClick={handleSortPublished}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleSortEdit}>Last Edited Date (Newest)</MenuItem>
+            <MenuItem onClick={handleSortListens}>Listens (High - Low)</MenuItem>
+            <MenuItem onClick={handleSortLikes}>Likes (High - Low)</MenuItem>
+            <MenuItem onClick={handleSortDislikes}>Dislikes (High - Low)</MenuItem>
             <MenuItem onClick={handleSortName}>Name (A - Z)</MenuItem>
         </Menu>
                 

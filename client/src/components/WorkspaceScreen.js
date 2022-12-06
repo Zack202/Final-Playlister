@@ -44,6 +44,7 @@ function WorkspaceScreen() {
     function handlePublish(event) {
         event.stopPropagation();
         store.publishList();
+        store.loadIdNamePairs();
     }
     function handleDelete(event) {
         event.stopPropagation();
@@ -53,22 +54,24 @@ function WorkspaceScreen() {
         event.stopPropagation();
         store.dupePlaylist("");
     }
-    let undoButton = <Button onClick={(event) => {
-        handleUndo(event)
-    }} >Undo</Button>;
-    let redoButton = <Button onClick={(event) => {
-        handleRedo(event)
-    }} aria-label='Redo'>Redo</Button>;
-    let publishButton = <Button onClick={(event) => {
-        handlePublish(event)
-    }} aria-label='Publish'>Publish</Button>;
-    let addSongButton = <div class = "unselected-list-card" style={{textAlign: "center"}} onClick={handleClick}>+</div>
+        let undoButton = <div></div>;
+        let  redoButton = <div></div>;
+        let  publishButton = <div></div>;
+        let  addSongButton = <div></div>
+    const blankDate = new Date(0);
+    
     if(store.currentList){
-        if(store.currentList.published == true){
-            undoButton = <div></div>;
-            redoButton = <div></div>;
-            publishButton = <div></div>;
-            addSongButton = <div></div>
+        if(store.currentList.published == blankDate.toISOString()){
+             undoButton = <Button onClick={(event) => {
+                handleUndo(event)
+            }} >Undo</Button>;
+             redoButton = <Button onClick={(event) => {
+                handleRedo(event)
+            }} aria-label='Redo'>Redo</Button>;
+             publishButton = <Button onClick={(event) => {
+                handlePublish(event)
+            }} aria-label='Publish'>Publish</Button>;
+             addSongButton = <div class = "unselected-list-card" style={{textAlign: "center"}} onClick={handleClick}>+</div>
         }
     }
     return (<div>

@@ -146,7 +146,8 @@ getPlaylistPairs = async (req, res) => {
                             listens: list.listens,
                             published: list.published,
                             date: list.updatedAt,
-                            userName: list.userName
+                            userName: list.userName,
+                            updatedAt: list.updatedAt
 
                             
                         };
