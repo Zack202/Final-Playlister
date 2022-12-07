@@ -98,8 +98,7 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            //history.push("/login");
-        auth.loginUser(email,password)
+            history.push("/login");
         }
     } catch(error) {
 

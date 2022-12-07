@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import List from '@mui/material/List';
 import { GlobalStoreContext } from '../store/index.js'
+import AuthContext from '../auth'
 /*
     This React component lets us edit a loaded list, which only
     happens when we are on the proper route.
@@ -16,6 +17,7 @@ import { GlobalStoreContext } from '../store/index.js'
 */
 function WorkspaceScreen() {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     store.history = useHistory();
     
     let modalJSX = "";
@@ -57,10 +59,17 @@ function WorkspaceScreen() {
         let undoButton = <div></div>;
         let  redoButton = <div></div>;
         let  publishButton = <div></div>;
-        let  addSongButton = <div></div>
-        let deleteButton = <div></div>
+        let  addSongButton = <div></div>;
+        let deleteButton = <div></div>;
+        let duplicateButton = <div></div>;
     const blankDate = new Date(0);
     
+    if(auth.user.userName !== "GUEST"){
+        duplicateButton = <Button onClick={(event) => {
+            handleDuplicate(event)
+        }} aria-label='Duplicate'>Duplicate</Button>;
+    }
+
     if(store.currentList){
         if(store.currentList.published == blankDate.toISOString()){
              undoButton = <Button onClick={(event) => {
@@ -103,9 +112,7 @@ function WorkspaceScreen() {
             <Grid item xs={6} disabled={!store.canRedo()}>{redoButton}</Grid>
             <Grid item xs={1.5}>{publishButton}</Grid>
             <Grid item xs={1.5}>{deleteButton}</Grid>
-            <Grid item xs={1.5}><Button onClick={(event) => {
-                        handleDuplicate(event)
-                    }} aria-label='Duplicate'>Duplicate</Button></Grid>
+            <Grid item xs={1.5}>{duplicateButton}</Grid>
             </Grid>
          </List>            
          

@@ -1,6 +1,13 @@
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom'
+import { useContext } from 'react';
+import AuthContext from '../auth'
 export default function SplashScreen() {
+    const { auth } = useContext(AuthContext);
+    function handleGuest(){
+        auth.registerUser("GUEST","GUEST","GUEST","GUEST","GUESTGUEST","GUESTGUEST")
+        auth.loginUser("GUEST","GUESTGUEST");
+    }
     return (
         <div id="splash-screen">
             <img src="PLL.png" alt="logo" width="300" height="150"></img><br></br>
@@ -12,7 +19,7 @@ export default function SplashScreen() {
             <br></br>
             <Button component = {Link} to='/register/' sx={{ mt: 20, mb: 2, mr :15,  w:1000}} variant="contained">Create Account</Button>
             <Button component = {Link} to='/login/' sx={{ mt: 20, mb: 2, mr :15,  w:"25%" }} variant="contained">Login</Button>
-            <Button component = {Link} to='/' sx={{ mt: 20, mb: 2, w:1/4 }} variant="contained">Continue as Guest</Button>
+            <Button component = {Link} to='/' onClick = {handleGuest}sx={{ mt: 20, mb: 2, w:1/4 }} variant="contained">Continue as Guest</Button>
             <br></br>
             <text id="textName">Created by Zachary Lowinger</text>
         </div>

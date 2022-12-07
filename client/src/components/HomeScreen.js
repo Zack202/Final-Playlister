@@ -1,5 +1,6 @@
 import React, { useContext, useEffect,useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 import ListCard from './ListCard.js'
 import CommentCard from './CommentCard'
 import MUIDeleteModal from './MUIDeleteModal'
@@ -39,6 +40,7 @@ const HomeScreen = () => {
     const [searchChoose, setsearchChoose] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const { auth } = useContext(AuthContext);
     useEffect(() => {
         if(store.screen == 0){
         store.loadIdNamePairs();
@@ -66,15 +68,22 @@ const HomeScreen = () => {
 >{text} Lists
 </Typography>
     }
-    if (store.screen == 0){
+    if (store.screen == 0 && auth.user.userName == "GUEST"){
+        addOrDisplay = <Typography
+        size="large"
+        edge="end"
+        fontSize='30pt'
+        color="inherit"
+    >Create an Account to Make Your Own Playlists
+    </Typography>
+    } else if (store.screen == 0){
         addOrDisplay = <Typography
         size="large"
         edge="end"
         fontSize='30pt'
         color="inherit"
         onClick = {handleCreateNewList}
-    >+ Your Lists
-    </Typography>
+    >+ Your Lists</Typography>
     }
     let pName = "";
     let sName = "";
@@ -189,6 +198,17 @@ const HomeScreen = () => {
     function handleUpdateComment (event){
         setComment(event.target.value);
     }
+    let commentField = <div></div>;
+if(auth.user.userName !== "GUEST"){
+    commentField = <TextField
+    name="commentBar"
+    fullWidth
+    id="commentBar"
+    label="Add Comment"
+    onKeyPress={handleKeyPress2}
+    onChange={handleUpdateComment}
+/>
+}
     if (playerActive == 0){
          playerComments = <div>
         <YouTubePlayerExample />
@@ -298,14 +318,7 @@ const HomeScreen = () => {
             ))
         }
         </List>
-        <TextField
-                                    name="commentBar"
-                                    fullWidth
-                                    id="commentBar"
-                                    label="Add Comment"
-                                    onKeyPress={handleKeyPress2}
-                                    onChange={handleUpdateComment}
-                                />
+        {commentField}
                                 </div>
     } else {
         playerComments = <div></div>

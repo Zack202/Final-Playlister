@@ -28,6 +28,7 @@ function ListCard(props) {
     const { idNamePair, selected,switcher } = props;
 
     function handleLoadList(event, id) {
+        store.clearTransactions();
         if(expandActive == true){
             if(store.currentList){
                 if(store.currentList._id !== id){
