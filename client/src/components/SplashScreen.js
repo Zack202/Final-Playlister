@@ -14,7 +14,6 @@ export default function SplashScreen() {
             <text id="textWelcome">Welcome to Playlister!</text><br></br>
             <br></br>
             <br></br>
-            <br></br>
             <text>Playlister is a multifunction playlist creator that allows its users to create, edit, and delete playlists and songs. Playlists can be published publicly where they can be viewed, liked, and played. Try to create a great playlist for your own enjoyment or try to get as many likes and views as you can! </text>
             <br></br>
             <Button component = {Link} to='/register/' sx={{ mt: 20, mb: 2, mr :15,  w:1000}} variant="contained">Create Account</Button>
