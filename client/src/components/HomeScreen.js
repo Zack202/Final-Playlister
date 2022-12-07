@@ -48,6 +48,10 @@ const HomeScreen = () => {
             store.loadIdNamePairsPublished();
         }
     }, [store.screen]);
+    useEffect(() => {
+        setText("");
+        store.loadIdNamePairs();
+    }, []);
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };

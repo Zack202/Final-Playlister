@@ -34,6 +34,7 @@ export default function AppBanner() {
         store.clearTransactions();
         store.closeList();
         auth.logoutUser();
+        
     }
 
     const menuId = 'primary-search-account-menu';
@@ -55,6 +56,7 @@ export default function AppBanner() {
         >
             <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
             <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}><Link to='/'>Splash Screen</Link></MenuItem>
         </Menu>
     );
     const loggedInMenu = 
