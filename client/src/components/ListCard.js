@@ -27,6 +27,15 @@ function ListCard(props) {
     const [text, setText] = useState("");
     const { idNamePair, selected,switcher } = props;
 
+    useEffect(() => {
+        if(store.currentList){
+        if(store.currentList._id == idNamePair._id && store.eMessage == "- Please enter a unique name"){
+            toggleEdit();
+        }
+
+    }
+    }, [store.changeListName]);
+
     function handleLoadList(event, id) {
         store.clearTransactions();
         if(expandActive == true){
@@ -69,7 +78,7 @@ function ListCard(props) {
     function toggleEdit() {
         let newActive = !editActive;
         if (newActive) {
-            store.setIsListNameEditActive();
+            //store.setIsListNameEditActive();
         }
         setEditActive(newActive);
     }
@@ -83,11 +92,16 @@ function ListCard(props) {
     }*/
      function handleKeyPress(event) {
         if (event.code === "Enter") {
+            handleUpdateText(event);
             let id = event.target.id.substring("list-".length);
+            if(text !== ""){
             store.changeListName(id, text);
             toggleEdit();
+        } else {
+            store.textEmpty();
         }
     }
+}
     function handleUpdateText(event) {
         setText(event.target.value);
         if(event.target.value == idNamePair){

@@ -87,7 +87,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload.idNamePairs,
-                    currentList: store.currentList,
+                    currentList: payload.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -337,7 +337,8 @@ function GlobalStoreContextProvider(props) {
                                         type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                         payload: {
                                             idNamePairs: pairsArray,
-                                            editMessage: ""
+                                            editMessage: "",
+                                            currentList: store.currentList
                                         }
                                     });
                                     
@@ -495,10 +496,10 @@ store.checkListens = async function (ids){
                                     type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                     payload: {
                                         idNamePairs: pairsArray,
-                                        editMessage: ""
+                                        editMessage: "",
+                                        currentList: playlist
                                     }
                                 });
-                                
                             }
                         }
                         getListPairs(playlist);
@@ -513,14 +514,24 @@ store.checkListens = async function (ids){
             type: GlobalStoreActionType.CHANGE_LIST_NAME,
             payload: {
                 idNamePairs: store.idNamePairs,
-                editMessage: "- Please enter a unique name"
+                editMessage: "- Please enter a unique name",
+                currentList: store.currentList
             }
         });
     }
 }
 attemptsync(id,newName)
     }
-
+store.textEmpty = function(){
+    storeReducer({
+        type: GlobalStoreActionType.CHANGE_LIST_NAME,
+        payload: {
+            idNamePairs: store.idNamePairs,
+            editMessage: "",
+            currentList:store.currentList
+        }
+    });
+}
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
     store.closeCurrentList = function () {
         storeReducer({
