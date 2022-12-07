@@ -222,12 +222,12 @@ if(auth.user.userName !== "GUEST"){
     if (playerActive == 0){
          playerComments = <div>
         <YouTubePlayerExample />
-        <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', color: "blue" }}>
-        <Grid container spacing = {2} padding = {1} style = {{contentAlign: "center", marginLeft: "20%"}}>
+        <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', color: "#0D1321" }}>
+        <Grid container spacing = {1} padding = {1} style = {{contentAlign: "center", marginLeft: "20%"}}>
         <Grid item xs = {12}>
         Now Playing
                 <Typography
-                        size="large"
+                        size="small"
                         edge="end"
                         fontSize='14pt'
                         color="inherit"
@@ -241,7 +241,7 @@ if(auth.user.userName !== "GUEST"){
                         edge="end"
                         fontSize='14pt'
                         color="inherit"
-                    >Song#: {store.currentSongNumber}
+                    >Song#: {store.currentList ? store.currentSongNumber : ""}
                     </Typography>
                 </Grid>
                 <Grid item xs = {12}>
@@ -265,14 +265,14 @@ if(auth.user.userName !== "GUEST"){
                     </Typography>
                 </Grid>
         </Grid>
-        <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', color: "blue" }}>
+        <Box sx={{ border: 1, borderRadius:"10px", borderColor: 'divider', backgroundColor: "#748CAB", color:"F0EBD8" }}>
             <Grid container spacing = {2} padding = {1} style = {{contentAlign: "center", marginLeft: "20%"}}>
                 <Grid item xs = {2}>
                 <FastRewindIcon
                         size="large"
                         edge="end"
                         fontSize='30pt'
-                        color="inherit"
+                        color="F0EBD8"
                         transform= "scale(1.8)"
                         id = "prev-button"
                         onClick = {handlePrev}
@@ -427,10 +427,10 @@ if(auth.user.userName !== "GUEST"){
                 id="list-selector-list"
             >{listCard}</Grid>
             <Grid item xs = {5} >
-            <Box id="playerComment" sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "grey",borderRadius:"10px" }}>
-            <Tabs  value = {playerActive} aria-label="nav tabs example">
-                 <Tab label="Player" onClick={handlePlayer}/>
-                  <Tab label="Comments" onClick={handleComments} disabled={commentTab}/>
+            <Box id="playerComment" sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "#3E5C76",borderRadius:"10px" }}>
+            <Tabs  value = {playerActive} aria-label="nav tabs example" >
+                 <Tab label="Player" onClick={handlePlayer} sx={{backgroundColor: "#748CAB"}}/>
+                  <Tab label="Comments" onClick={handleComments} disabled={commentTab} sx={{backgroundColor: "#748CAB",}}/>
             </Tabs>
             {playerComments}
            

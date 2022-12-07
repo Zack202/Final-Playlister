@@ -6,7 +6,7 @@ function CommentCard(props){
 let commentElement =<ListItem
             id={idNamePair.userName}
             sx={{ marginTop: '15px', display: 'flex', p: 1, border: 1, alignItems: "start",borderRadius: "10px" }}
-            style={{ width: '100%', fontSize: '10pt',color: "blue" }}
+            style={{ width: '100%', fontSize: '10pt',backgroundColor: "#F0EBD8",color:"#748CAB" }}
             
         >{idNamePair.userName + ": " + idNamePair.comment}</ListItem>
         return(

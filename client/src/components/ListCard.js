@@ -166,7 +166,7 @@ function ListCard(props) {
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1, border: 1, alignItems: "start",borderRadius: "10px" }}
+            sx={{ marginTop: '15px', display: 'flex', p: 1, border: 1, alignItems: "start",borderRadius: "10px",backgroundColor:"#F0EBD8" }}
             style={{ width: '100%', fontSize: '16pt',color: "blue" }}
             button
             onClick={(event) => {

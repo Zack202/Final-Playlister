@@ -83,12 +83,13 @@ const blankDate = new Date(0);
             onDrop={handleDrop}
             draggable="true"
             onClick={handleClick}
+        sx={{backgroundColor:"#748CAB", color: "3e5c76"}}
         >
             {index + 1}.
             <a
                 id={'song-' + index + '-link'}
                 className="song-link"
-                >
+                sx={{color:"inhert"}}>
                 {song.title} by {song.artist}
             </a>
             {removeSongButton}
