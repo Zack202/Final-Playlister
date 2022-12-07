@@ -23,6 +23,7 @@ export default function MUIErrorModal() {
         errorDescription = auth.errorFound;
     }
     function handleCloseModal(event) {
+        event.stopPropagation();
         auth.unErrorFound();
     }
 
