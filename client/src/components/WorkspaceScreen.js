@@ -46,7 +46,6 @@ function WorkspaceScreen() {
     function handlePublish(event) {
         event.stopPropagation();
         store.publishList();
-        store.loadIdNamePairs();
     }
     function handleDelete(event) {
         event.stopPropagation();

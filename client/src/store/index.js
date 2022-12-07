@@ -842,7 +842,31 @@ attemptsync(id,newName)
     }
     store.publishList = function(){
         store.currentList.published = new Date();
-        store.updateCurrentList();
+        store.updateCurrentListPubs();
+    }
+    store.updateCurrentListPubs = function() {
+        async function asyncUpdateCurrentList() {
+            const response = await api.updatePlaylistById(store.currentList._id, store.currentList);
+            if (response.data.success) {
+                let id = response.data.id;
+                async function asyncUpdateCurrentList2(id) {
+                    const response = await api.getPlaylistById(id);
+                let playlist = response.data.playlist;
+                let songlist = [];
+                    playlist.songs.forEach(addYt);
+                function addYt(song){
+                songlist.push(song.youTubeId);
+                }
+                store.loadIdNamePairs();
+                storeReducer({
+                    type: GlobalStoreActionType.SET_CURRENT_LIST,
+                    payload: {playlist:playlist,songlist:songlist}
+                });
+            }
+            asyncUpdateCurrentList2(id);
+        }
+        }
+        asyncUpdateCurrentList();
     }
     store.updateCurrentList = function() {
         async function asyncUpdateCurrentList() {
