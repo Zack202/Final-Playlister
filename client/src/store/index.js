@@ -94,7 +94,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0,
+                    currentSongNumber:store.currentSongNumber,
                     eMessage: payload.editMessage,
                     screen:store.screen,
                     songlist: store.songlist
@@ -149,7 +149,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0,
+                    currentSongNumber:store.currentSongNumber,
                     eMessage: store.eMessage,
                     screen:store.screen,
                     songlist: store.songlist
@@ -167,7 +167,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: payload.id,
                     listMarkedForDeletion: payload.playlist,
-                    currentSongNumber:0,
+                    currentSongNumber:store.currentSongNumber,
                     eMessage: store.eMessage,
                     screen:store.screen,
                     songlist: store.songlist
@@ -203,7 +203,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: true,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0,
+                    currentSongNumber:store.currentSongNumber,
                     eMessage: store.eMessage,
                     screen:store.screen,
                     songlist: store.songlist
@@ -221,7 +221,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0,
+                    currentSongNumber:store.currentSongNumber,
                     eMessage: store.eMessage,
                     screen:store.screen,
                     songlist: store.songlist
@@ -238,7 +238,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0,
+                    currentSongNumber:store.currentSongNumber,
                     eMessage: store.eMessage,
                     screen:store.screen,
                     songlist: store.songlist
@@ -255,7 +255,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    currentSongNumber:0,
+                    currentSongNumber:store.currentSongNumber,
                     eMessage: store.eMessage,
                     screen:store.screen,
                     songlist: store.songlist
@@ -439,8 +439,34 @@ store.checkListens = async function (ids){
 }
 
 
-    store.getCurrentSongNum = async function (currentSongNumber) {
-        await storeReducer({
+    store.getCurrentSongNum = function (currentSongNumber) {
+         storeReducer({
+            type: GlobalStoreActionType.UPDATE_SONG_NUMBER,
+            payload: {
+                currentSongNumber : currentSongNumber
+            }
+        });
+    }
+    store.increaseSongNum = function (currentSongNumber){
+        let checker = currentSongNumber;
+        checker++;
+        checker = checker % store.songlist.length;
+        currentSongNumber = checker;
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_SONG_NUMBER,
+            payload: {
+                currentSongNumber : currentSongNumber
+            }
+        });
+    }
+    store.decreaseSongNum = function (currentSongNumber){
+        let checker = currentSongNumber;
+        checker--;
+        if(checker < 0){
+            checker = store.songlist.length;
+        }
+        currentSongNumber = checker;
+        storeReducer({
             type: GlobalStoreActionType.UPDATE_SONG_NUMBER,
             payload: {
                 currentSongNumber : currentSongNumber

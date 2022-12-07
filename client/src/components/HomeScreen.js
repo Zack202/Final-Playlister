@@ -137,6 +137,12 @@ const HomeScreen = () => {
         console.log(sortedProducts);
         handleMenuClose();
     }
+    function handleNext () {
+        store.increaseSongNum(store.currentSongNumber);
+    }
+    function handlePrev () {
+        store.decreaseSongNum(store.currentSongNumber);
+    }
     let playerComments = <div></div>
     function handleComments() {
         setPlayerActive(1);
@@ -269,6 +275,7 @@ if(auth.user.userName !== "GUEST"){
                         color="inherit"
                         transform= "scale(1.8)"
                         id = "prev-button"
+                        onClick = {handlePrev}
                     >
                     </FastRewindIcon>
                 </Grid>
@@ -302,6 +309,7 @@ if(auth.user.userName !== "GUEST"){
                         color="inherit"
                         transform= "scale(1.8)"
                         id = "next-button"
+                        onClick = {handleNext}
                     >
                     </FastForwardIcon>
                 </Grid>

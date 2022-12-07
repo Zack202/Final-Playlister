@@ -1,14 +1,14 @@
 import React from 'react';
 import YouTube from 'react-youtube';
 import { GlobalStoreContext } from './store'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 export default function YouTubePlayerExample() {
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
-
+    
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
     //let playlist = [
     //    "mqmxkGjow1A",
@@ -17,7 +17,6 @@ export default function YouTubePlayerExample() {
     //];
     const { store } = useContext(GlobalStoreContext);
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
-    let currentSong = 0;
 
     const playerOptions = {
         height: '280',
@@ -31,15 +30,17 @@ export default function YouTubePlayerExample() {
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
     function loadAndPlayCurrentSong(player) {
-        let song = store.songlist[currentSong];
+        let song = store.songlist[store.currentSongNumber];
         player.loadVideoById(song);
         player.playVideo();
     }
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
-        currentSong++;
-        currentSong = currentSong % store.songlist.length;
+        let checker = store.currentSongNumber;
+        checker++;
+        checker = checker % store.songlist.length;
+        store.getCurrentSongNum(checker);
     }
 
     function onPlayerReady(event) {
@@ -77,6 +78,7 @@ export default function YouTubePlayerExample() {
         } else if (playerStatus === 5) {
             // THE VIDEO HAS BEEN CUED
             console.log("5 Video cued");
+            //player.playVideo();
         }
     
     var playButton1 = document.getElementById("play-button");
@@ -89,19 +91,11 @@ export default function YouTubePlayerExample() {
         player.pauseVideo();
         });
 
-        var playButton3 = document.getElementById("prev-button");
-        playButton3.addEventListener("click", function() {
-        });
 
-        var playButton4 = document.getElementById("next-button");
-        playButton4.addEventListener("click", function() {
-            incSong();
-            loadAndPlayCurrentSong(player);
-        },);
     
     }
     return <YouTube
-        videoId={store.songlist[currentSong]}
+        videoId={store.songlist[store.currentSongNumber]}
         opts={playerOptions}
         onReady={onPlayerReady}
         onStateChange={onPlayerStateChange} />;
