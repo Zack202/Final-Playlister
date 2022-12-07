@@ -26,13 +26,14 @@ export default function YouTubePlayerExample() {
             autoplay: 0,
         },
     };
-
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
     function loadAndPlayCurrentSong(player) {
+        if(store.currentList){
         let song = store.songlist[store.currentSongNumber];
         player.loadVideoById(song);
         player.playVideo();
+        }
     }
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
@@ -80,7 +81,7 @@ export default function YouTubePlayerExample() {
             // THE VIDEO HAS BEEN CUED
             console.log("5 Video cued");
             //player.playVideo();
-            player.playVideo();
+            
         }
     
     var playButton1 = document.getElementById("play-button");
@@ -97,7 +98,7 @@ export default function YouTubePlayerExample() {
     
     }
     return <YouTube
-        videoId={store.songlist[store.currentSongNumber]}
+        videoId={store.currentList ? store.songlist[store.currentSongNumber] : ""}
         opts={playerOptions}
         onReady={onPlayerReady}
         onStateChange={onPlayerStateChange} />;
