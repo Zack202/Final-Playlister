@@ -63,6 +63,7 @@ export default function YouTubePlayerExample() {
             console.log("0 Video ended");
             incSong();
             loadAndPlayCurrentSong(player);
+            player.playVideo();
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
             if(store.currentList){
@@ -79,6 +80,7 @@ export default function YouTubePlayerExample() {
             // THE VIDEO HAS BEEN CUED
             console.log("5 Video cued");
             //player.playVideo();
+            player.playVideo();
         }
     
     var playButton1 = document.getElementById("play-button");

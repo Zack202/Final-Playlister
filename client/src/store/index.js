@@ -463,7 +463,7 @@ store.checkListens = async function (ids){
         let checker = currentSongNumber;
         checker--;
         if(checker < 0){
-            checker = store.songlist.length;
+            checker = store.songlist.length -1;
         }
         currentSongNumber = checker;
         storeReducer({
