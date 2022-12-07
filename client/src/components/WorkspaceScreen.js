@@ -73,10 +73,10 @@ function WorkspaceScreen() {
         if(store.currentList.published == blankDate.toISOString()){
              undoButton = <Button onClick={(event) => {
                 handleUndo(event)
-            }} >Undo</Button>;
+            }} id='undo-button' disabled={!store.canUndo()}>Undo</Button>;
              redoButton = <Button onClick={(event) => {
                 handleRedo(event)
-            }} aria-label='Redo'>Redo</Button>;
+            }} aria-label='Redo' disabled={!store.canRedo()} >Redo</Button>;
              publishButton = <Button onClick={(event) => {
                 handlePublish(event)
             }} aria-label='Publish'>Publish</Button>;
