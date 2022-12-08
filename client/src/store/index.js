@@ -35,7 +35,8 @@ export const GlobalStoreActionType = {
     HIDE_MODALS: "HIDE_MODALS",
     UPDATE_SONG_NUMBER: "UPDATE_SONG_NUMBER",
     SEARCH_BY: "SEARCH_BY",
-    UPDATE_SCREEN_NUMBER:"UPDATE_SCREEN_NUMBER"
+    UPDATE_SCREEN_NUMBER:"UPDATE_SCREEN_NUMBER",
+    LOG_OUT:"LOG_OUT"
 
 }
 
@@ -124,7 +125,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: store.idNamePairs,
-                    currentList: payload,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter + 1,
@@ -295,6 +296,23 @@ function GlobalStoreContextProvider(props) {
                     songlist: store.songlist
                 });
             }
+            case GlobalStoreActionType.LOG_OUT: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: [],
+                    currentList: null,
+                    currentSongIndex : -1,
+                    currentSong : null,
+                    newListCounter: 0,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    currentSongNumber:0,
+                    eMessage:"",
+                    screen:0,
+                    songlist:[]
+                });
+            }
             default:
                 return store;
         }
@@ -303,6 +321,15 @@ function GlobalStoreContextProvider(props) {
     // THESE ARE THE FUNCTIONS THAT WILL UPDATE OUR STORE AND
     // DRIVE THE STATE OF THE APPLICATION. WE'LL CALL THESE IN 
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
+    store.logOut = function (){
+        async function alog (){
+        storeReducer({
+            type: GlobalStoreActionType.LOG_OUT,
+            payload:null
+        });
+        }
+        alog();
+    }
     store.setScreen = function (screen){
         async function aScreen (screen){
         storeReducer({

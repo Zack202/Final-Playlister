@@ -59,10 +59,12 @@ const HomeScreen = () => {
         setAnchorEl(null);
     };
     function handleCreateNewList() {
+        if(store.currentList)
+        document.getElementById(store.currentList._id).style.color = "blue";
         store.createNewList("");
     }
     let addOrDisplay = <div></div>
-    if (text !== ""){
+    if (text !== "" && store.screen !== 0){
      addOrDisplay = <Typography
     size="large"
     edge="end"
